@@ -1,21 +1,17 @@
-class BaseGridTile implements XMLLoadable
+PNGSequenceGridTile extends AnimatedGridTile
 {
-  //the origin coordinates on the grid at which this tile lives
-  int[] position;
-  public BaseGridTile(int x, int y)
-  {
-    position = new int[]{x,y};
-  }
-  
+  //image sequence
   public void draw()
   {
-    
+    //fill me in
   }
   
+  //update
   public void update(float dt)
   {
-    
+    //fill me in
   }
+  
   void loadWithXML(XML xml)
   {
     XML[] children = xml.getChildren();

@@ -1,4 +1,4 @@
-class GridTiler
+class GridTiler implements XMLLoadable
 {
   protected float[] xAxis = {20,5};
   protected float[] yAxis = {5,20};
@@ -46,6 +46,21 @@ class GridTiler
    //this.getClass().getName(); 
   }
 
+  void loadWithXML(XML xml)
+  {
+    float xAxisX = xml.getFloat("xAxis");
+//    float xAxisX = xml.getFloat("xAxis");
+//    float xAxisX = xml.getFloat("xAxis");
+//    float xAxisX = xml.getFloat("xAxis");
+    XML[] children = xml.getChildren();
+
+    for (int i = 0; i < children.length; i++) {
+      int id = children[i].getInt("id");
+      String coloring = children[i].getString("species");
+      String name = children[i].getContent();
+      println(id + ", " + coloring + ", " + name);
+    }
+  }
 }
 
 

@@ -1,21 +1,20 @@
-class BaseGridTile implements XMLLoadable
+class ProceduralAnimatedGridTile extends AnimatedGridTile
 {
-  //the origin coordinates on the grid at which this tile lives
-  int[] position;
-  public BaseGridTile(int x, int y)
+  public ProceduralAnimatedGridTile()
   {
-    position = new int[]{x,y};
+    //fill me in
   }
   
   public void draw()
   {
-    
+    //fill me in
   }
   
   public void update(float dt)
   {
-    
+    //fill me in
   }
+  
   void loadWithXML(XML xml)
   {
     XML[] children = xml.getChildren();
