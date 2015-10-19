@@ -4,9 +4,9 @@
 class GridTool extends GridTiler
 {
   
-  public GridTool(float graphScale, float xAxisTheta, float yAxisTheta)
+  public GridTool(float[] origin, float graphScale, float xAxisTheta, float yAxisTheta)
   {
-    super(graphScale, xAxisTheta, yAxisTheta);
+    super(origin, graphScale, xAxisTheta, yAxisTheta);
   }
   
   void rebuildGrid(float graphScale, float xAxisTheta, float yAxisTheta)

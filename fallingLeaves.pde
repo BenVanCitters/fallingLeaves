@@ -5,7 +5,9 @@ void setup()
 {
 //  size(displayWidth,displayHeight);
   size(1024,768,P2D);
-  gridTool = new GridTool(50, PI/3, 2*PI/3.f);
+  XML xml = loadXML("w");
+  
+  gridTool = new GridTool(new float[]{},50, PI/3, 2*PI/3.f);
 //  initGrid();
 
 }
