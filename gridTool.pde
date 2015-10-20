@@ -1,14 +1,27 @@
+//***************************************************************
+// shows a bunch of debug stuff and allows easy alteration of the 
+//  properties in the grid
 //class to assist:
 // 1) building an appropriate grid in situ at the gallery
 // 2) asset creation
+//***************************************************************
 class GridTool extends GridTiler
 {
   
+  //***************************************************************
+  // origin: 2d vector screen space offset
+  // graphscale: scale of unit vectors
+  // xAxisTheta: radian measurement of the xaxis
+  // yAxisTheta: radian measurement of the yaxis
+  //***************************************************************
   public GridTool(float[] origin, float graphScale, float xAxisTheta, float yAxisTheta)
   {
     super(origin, graphScale, xAxisTheta, yAxisTheta);
   }
   
+  //***************************************************************
+  // basically re-inits but without re-generating the tiles
+  //***************************************************************
   void rebuildGrid(float graphScale, float xAxisTheta, float yAxisTheta)
   {
     xAxis = new float[]{graphScale*cos(xAxisTheta),
@@ -18,22 +31,25 @@ class GridTool extends GridTiler
                         graphScale*sin(yAxisTheta)}; 
   }
   
+  //***************************************************************
+  // draws a bunch of debug stuff over the top of the regular tile-shit
+  //***************************************************************
   void draw()
   {
     super.draw();
     int graphRange[] = {-20,20};
-     pushMatrix();
-     translate(width/2,height/2);
+    pushMatrix();
+    translate(origin[0],origin[1]);
     //draw x axis markers
     stroke(0,255,0);
     for(int i = graphRange[0]; i < graphRange[1]+1; i++)
     {
       beginShape();
-        vertex( yAxis[0] * i + graphRange[0] * xAxis[0], 
-                yAxis[1] * i + graphRange[0] * xAxis[1]);
-                
-        vertex( yAxis[0] * i + graphRange[1] * xAxis[0], 
-                yAxis[1] * i + graphRange[1] * xAxis[1]);
+      vertex( yAxis[0] * i + graphRange[0] * xAxis[0], 
+              yAxis[1] * i + graphRange[0] * xAxis[1]);
+               
+      vertex( yAxis[0] * i + graphRange[1] * xAxis[0], 
+              yAxis[1] * i + graphRange[1] * xAxis[1]);
       endShape();
     }
     //draw y axis markers
@@ -41,11 +57,11 @@ class GridTool extends GridTiler
     for(int i = graphRange[0]; i < graphRange[1]+1; i++)
     {
       beginShape();
-        vertex( xAxis[0] * i + graphRange[0] * yAxis[0], 
-                xAxis[1] * i + graphRange[0] * yAxis[1]);
+      vertex( xAxis[0] * i + graphRange[0] * yAxis[0], 
+              xAxis[1] * i + graphRange[0] * yAxis[1]);
                 
-        vertex( xAxis[0] * i + graphRange[1] * yAxis[0], 
-                xAxis[1] * i + graphRange[1] * yAxis[1]);
+      vertex( xAxis[0] * i + graphRange[1] * yAxis[0], 
+              xAxis[1] * i + graphRange[1] * yAxis[1]);
       endShape();
     }
     
@@ -66,8 +82,10 @@ class GridTool extends GridTiler
     popMatrix();
   }
   
+
+  //***************************************************************
   //saves a bunch of template pngs out to the 'sizes' folder
-  //uses the current 
+  //***************************************************************
   void generateCutouts()
   {
     for(int x = 1; x  <= 4; x++)
@@ -117,9 +135,12 @@ class GridTool extends GridTiler
       }  
     }
   }
-  
+
+  //***************************************************************
   //takes four xy coords (float arrays) and returns the axis aligned 
-  //bounding box {left,top,right,bottom} (also a float array...
+  //bounding box {left,top,right,bottom} (also a float array...)
+  //basically a helper method for the generate cutouts method
+  //***************************************************************
   float[] getBoundingBox(float[] a,float[] b,float[] c,float[] d)
   {
     float minX = min(a[0],min(b[0],min(c[0],d[0])));

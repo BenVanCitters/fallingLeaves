@@ -1,29 +1,48 @@
+//***************************************************************
+// uses a static png to render a tile
+//***************************************************************
 class PNGGridTile extends BaseGridTile
 {
+  //offset to line png up with grid
+  float offset[] = {0,0};
+  //***************************************************************
+  //origin construtor
+  //***************************************************************
   public PNGGridTile(int x, int y)
   {
     super(x,y);
   }
   
+  //***************************************************************
+  // XML constructor
+  //***************************************************************
+  public PNGGridTile(XML xml)
+  {
+    super(xml);
+    loadWithXML(xml);
+  }
+  
+  //***************************************************************
+  // actually draw a PNG tile
+  //***************************************************************
   public void draw()
   {
     //fill me in
   }
   
+  //***************************************************************
+  // update tick
+  //***************************************************************
   public void update(float dt)
   {
     //fill me in
   }
   
+  //***************************************************************
+  // load with XML
+  //***************************************************************
   void loadWithXML(XML xml)
   {
-    XML[] children = xml.getChildren();
-
-    for (int i = 0; i < children.length; i++) {
-      int id = children[i].getInt("id");
-      String coloring = children[i].getString("species");
-      String name = children[i].getContent();
-      println(id + ", " + coloring + ", " + name);
-    }
+    println("XML: Initializing " + this.getClass().getName());
   }
 }

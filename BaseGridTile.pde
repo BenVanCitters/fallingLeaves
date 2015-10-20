@@ -1,30 +1,51 @@
+//***************************************************************
+// mother of all tiles
+//***************************************************************
 class BaseGridTile implements XMLLoadable
 {
   //the origin coordinates on the grid at which this tile lives
-  int[] position;
+  int[] position = {0,0};
+  
+  //***************************************************************
+  //origin construtor
+  //***************************************************************
   public BaseGridTile(int x, int y)
   {
     position = new int[]{x,y};
   }
   
+  //***************************************************************
+  // XML constructor
+  //***************************************************************
+  public BaseGridTile(XML xml)
+  {
+    loadWithXML(xml);
+  }
+  
+  //***************************************************************
+  // actually draw this tile - do nothing base call
+  //***************************************************************
   public void draw()
   {
     
   }
   
+  //***************************************************************
+  // update tick
+  //***************************************************************
   public void update(float dt)
   {
     
   }
+  
+  //***************************************************************
+  // load with XML
+  //***************************************************************
   void loadWithXML(XML xml)
   {
-    XML[] children = xml.getChildren();
-
-    for (int i = 0; i < children.length; i++) {
-      int id = children[i].getInt("id");
-      String coloring = children[i].getString("species");
-      String name = children[i].getContent();
-      println(id + ", " + coloring + ", " + name);
-    }
+    println("XML: Initializing " + this.getClass().getName());
+    position[0] = xml.getInt("x");
+    position[1] = xml.getInt("y");
+    println("position: " + position[0] + ", " + position[1]);
   }
 }

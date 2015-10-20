@@ -1,14 +1,15 @@
 //***************************************************************
-// uses a looping sequence of pngs to render a tile
+// tile with contents that are procedural but don't animate
 //***************************************************************
-class PNGSequenceGridTile extends AnimatedGridTile
+class StaticProceduralTile extends BaseGridTile
 {
-    //offset to line png up with grid
-  float offset[] = {0,0};
+  //the size in grid units 
+  int size[] = {1,1};
+  
   //***************************************************************
   //origin construtor
   //***************************************************************
-  public PNGSequenceGridTile(int x, int y)
+  public StaticProceduralTile(int x, int y)
   {
     super(x,y);
   }
@@ -16,26 +17,20 @@ class PNGSequenceGridTile extends AnimatedGridTile
   //***************************************************************
   // XML constructor
   //***************************************************************
-  public PNGSequenceGridTile(XML xml)
+  public StaticProceduralTile(XML xml)
   {
     super(xml);
     loadWithXML(xml);
   }
   
   //***************************************************************
-  // actually draw this image sequence tile
+  // actually draw this tile
   //***************************************************************
   public void draw()
   {
-    //fill me in
-  }
-  
-  //***************************************************************
-  // update tick
-  //***************************************************************
-  public void update(float dt)
-  {
-    //fill me in
+    //TODO
+    fill(255,0,0);
+    ellipse(0,0,100,100);
   }
   
   //***************************************************************
@@ -43,6 +38,11 @@ class PNGSequenceGridTile extends AnimatedGridTile
   //***************************************************************
   void loadWithXML(XML xml)
   {
-    println("XML: Initializing " + this.getClass().getName());
+    super.loadWithXML(xml);
+   println("XML: Initializing " + this.getClass().getName());
+   size = new int[2];
+   size[0] = xml.getInt("w");
+    size[1] = xml.getInt("h");
+    println("size: " + size[0] + ", " + size[1]);
   }
 }
