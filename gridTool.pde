@@ -44,7 +44,9 @@ class GridTool extends GridTiler
     stroke(0,255,0);
     for(int i = graphRange[0]; i < graphRange[1]+1; i++)
     {
-      beginShape();
+//      println(i + " skajdhaskj " + (yAxis[0] * i + graphRange[0] * xAxis[0]) + ", " + (yAxis[1] * i + graphRange[0] * xAxis[1]) );
+//      println(i + " sdetijlkmn " + ( yAxis[0] * i + graphRange[1] * xAxis[0]) + ", " + (yAxis[1] * i + graphRange[1] * xAxis[1]) );
+      beginShape(LINES);
       vertex( yAxis[0] * i + graphRange[0] * xAxis[0], 
               yAxis[1] * i + graphRange[0] * xAxis[1]);
                
@@ -56,7 +58,9 @@ class GridTool extends GridTiler
     stroke(255,0,0);
     for(int i = graphRange[0]; i < graphRange[1]+1; i++)
     {
-      beginShape();
+      println(i + " 3333 " + (xAxis[0] * i + graphRange[0] * yAxis[0]) + ", " + (xAxis[1] * i + graphRange[0] * yAxis[1]) );
+      println(i + " 3333 " + (xAxis[0] * i + graphRange[1] * yAxis[0]) + ", " + (xAxis[1] * i + graphRange[1] * yAxis[1]) );
+      beginShape(LINES);
       vertex( xAxis[0] * i + graphRange[0] * yAxis[0], 
               xAxis[1] * i + graphRange[0] * yAxis[1]);
                 

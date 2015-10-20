@@ -6,5 +6,6 @@
     <Tiles>
         <BaseGridTile x="5" y="5"/>
         <StaticProceduralTile x="2" y="1" w="3" h="4"/>
+        <ProceduralAnimatedGridTile x="-3" y="-4"/>
     </Tiles>
 </GridTiler>

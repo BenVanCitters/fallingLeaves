@@ -17,7 +17,6 @@ class AnimatedGridTile extends BaseGridTile
   public AnimatedGridTile(XML xml)
   {
     super(xml);
-    loadWithXML(xml);
   }
   
   //***************************************************************
@@ -40,6 +39,7 @@ class AnimatedGridTile extends BaseGridTile
   //***************************************************************
   void loadWithXML(XML xml)
   {
-   println("XML: Initializing " + this.getClass().getName());
+    super.loadWithXML(xml);
+    println("XML: Initializing " + this.getClass().getName());
   }
 }

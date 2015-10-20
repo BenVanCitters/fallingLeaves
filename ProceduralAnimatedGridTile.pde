@@ -3,6 +3,7 @@
 //***************************************************************
 class ProceduralAnimatedGridTile extends AnimatedGridTile
 {
+    int tileColor = 0;
   //***************************************************************
   //origin construtor
   //***************************************************************
@@ -17,7 +18,6 @@ class ProceduralAnimatedGridTile extends AnimatedGridTile
   public ProceduralAnimatedGridTile(XML xml)
   {
     super(xml);
-    loadWithXML(xml);
   }
   
   //***************************************************************
@@ -26,6 +26,8 @@ class ProceduralAnimatedGridTile extends AnimatedGridTile
   public void draw()
   {
     //fill me in
+    fill(tileColor);
+    rect(0,0,40,40);
   }
   
   //***************************************************************
@@ -34,6 +36,9 @@ class ProceduralAnimatedGridTile extends AnimatedGridTile
   public void update(float dt)
   {
     //fill me in
+    tileColor = color(255*(1+sin(millis()/1000.f))/2,
+                      255*(1+sin(20+millis()/900.f))/2,
+                      255*(1+sin(3+millis()/222.f))/2);
   }
   
   //***************************************************************
@@ -41,6 +46,7 @@ class ProceduralAnimatedGridTile extends AnimatedGridTile
   //***************************************************************
   void loadWithXML(XML xml)
   {
+    super.loadWithXML(xml);
     println("XML: Initializing " + this.getClass().getName());
   }
 }

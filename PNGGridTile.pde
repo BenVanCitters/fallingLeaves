@@ -19,7 +19,6 @@ class PNGGridTile extends BaseGridTile
   public PNGGridTile(XML xml)
   {
     super(xml);
-    loadWithXML(xml);
   }
   
   //***************************************************************
@@ -31,18 +30,11 @@ class PNGGridTile extends BaseGridTile
   }
   
   //***************************************************************
-  // update tick
-  //***************************************************************
-  public void update(float dt)
-  {
-    //fill me in
-  }
-  
-  //***************************************************************
   // load with XML
   //***************************************************************
   void loadWithXML(XML xml)
   {
+    super.loadWithXML(xml);
     println("XML: Initializing " + this.getClass().getName());
   }
 }

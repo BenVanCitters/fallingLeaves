@@ -19,7 +19,6 @@ class PNGSequenceGridTile extends AnimatedGridTile
   public PNGSequenceGridTile(XML xml)
   {
     super(xml);
-    loadWithXML(xml);
   }
   
   //***************************************************************
@@ -43,6 +42,7 @@ class PNGSequenceGridTile extends AnimatedGridTile
   //***************************************************************
   void loadWithXML(XML xml)
   {
+    super.loadWithXML(xml);
     println("XML: Initializing " + this.getClass().getName());
   }
 }

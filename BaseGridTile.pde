@@ -37,6 +37,7 @@ class BaseGridTile implements XMLLoadable
   {
     
   }
+
   
   //***************************************************************
   // load with XML

@@ -75,6 +75,7 @@ class GridTiler implements XMLLoadable
   //***************************************************************
   void loadWithXML(XML xml)
   {
+    //init properties
     println("XML: Initializing " + this.getClass().getName());
     XML xAxisElem = xml.getChild("xAxis");
     xAxis[0] = xAxisElem.getFloat("x");
@@ -91,8 +92,8 @@ class GridTiler implements XMLLoadable
     origin[1] = originElem.getFloat("y");
     println("origin: " + origin[0] + ", " + origin[1]);
     
+    //create babies!!!
     XML tileXML = xml.getChild("Tiles");
-
     XML[] tileElems = tileXML.getChildren();
     for(int i = 0; i < tileElems.length; i++)
     {
@@ -115,8 +116,8 @@ class GridTiler implements XMLLoadable
       {  tile = new AnimatedGridTile(currentTileXML); }
       else
       {
-        println("Error! Encountered unknown tile with class: " + className);
-        println("CONTENTS:" + currentTileXML + ":ENDCONTENTS");
+        println("XML: Error! Encountered unknown tile with class: " + className);
+        println("XML: CONTENTS:" + currentTileXML + ":ENDCONTENTS");
       }
       if(tile != null)
       {

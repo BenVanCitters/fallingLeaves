@@ -5,6 +5,7 @@ class StaticProceduralTile extends BaseGridTile
 {
   //the size in grid units 
   int size[] = {1,1};
+
   
   //***************************************************************
   //origin construtor
@@ -20,7 +21,6 @@ class StaticProceduralTile extends BaseGridTile
   public StaticProceduralTile(XML xml)
   {
     super(xml);
-    loadWithXML(xml);
   }
   
   //***************************************************************
@@ -39,9 +39,9 @@ class StaticProceduralTile extends BaseGridTile
   void loadWithXML(XML xml)
   {
     super.loadWithXML(xml);
-   println("XML: Initializing " + this.getClass().getName());
-   size = new int[2];
-   size[0] = xml.getInt("w");
+    println("XML: Initializing " + this.getClass().getName());
+    size = new int[2];
+    size[0] = xml.getInt("w");
     size[1] = xml.getInt("h");
     println("size: " + size[0] + ", " + size[1]);
   }
