@@ -1,5 +1,10 @@
 class PNGGridTile extends BaseGridTile
 {
+  public PNGGridTile(int x, int y)
+  {
+    super(x,y);
+  }
+  
   public void draw()
   {
     //fill me in

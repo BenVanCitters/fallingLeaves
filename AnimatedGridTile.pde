@@ -1,5 +1,10 @@
 class AnimatedGridTile extends BaseGridTile
 {
+  public AnimatedGridTile(int x, int y)
+  {
+    super(x,y);
+  }
+  
   public void draw()
   {
     //TODO

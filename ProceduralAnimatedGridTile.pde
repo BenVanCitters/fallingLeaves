@@ -1,8 +1,8 @@
 class ProceduralAnimatedGridTile extends AnimatedGridTile
 {
-  public ProceduralAnimatedGridTile()
+  public ProceduralAnimatedGridTile(int x, int y)
   {
-    //fill me in
+    super(x,y);
   }
   
   public void draw()

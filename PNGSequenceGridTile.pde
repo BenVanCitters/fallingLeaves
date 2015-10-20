@@ -1,5 +1,9 @@
-PNGSequenceGridTile extends AnimatedGridTile
+class PNGSequenceGridTile extends AnimatedGridTile
 {
+  public PNGSequenceGridTile(int x, int y)
+  {
+    super(x,y);
+  }
   //image sequence
   public void draw()
   {
