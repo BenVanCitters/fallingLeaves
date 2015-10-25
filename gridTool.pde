@@ -58,8 +58,8 @@ class GridTool extends GridTiler
     stroke(255,0,0);
     for(int i = graphRange[0]; i < graphRange[1]+1; i++)
     {
-      println(i + " 3333 " + (xAxis[0] * i + graphRange[0] * yAxis[0]) + ", " + (xAxis[1] * i + graphRange[0] * yAxis[1]) );
-      println(i + " 3333 " + (xAxis[0] * i + graphRange[1] * yAxis[0]) + ", " + (xAxis[1] * i + graphRange[1] * yAxis[1]) );
+//      println(i + " 3333 " + (xAxis[0] * i + graphRange[0] * yAxis[0]) + ", " + (xAxis[1] * i + graphRange[0] * yAxis[1]) );
+//      println(i + " 3333 " + (xAxis[0] * i + graphRange[1] * yAxis[0]) + ", " + (xAxis[1] * i + graphRange[1] * yAxis[1]) );
       beginShape(LINES);
       vertex( xAxis[0] * i + graphRange[0] * yAxis[0], 
               xAxis[1] * i + graphRange[0] * yAxis[1]);
@@ -83,6 +83,21 @@ class GridTool extends GridTiler
                      (i+.5)*xAxis[1]+(j+.5)*yAxis[1]); 
       }
     }
+    popMatrix();
+    
+    
+    fill(255);
+    textSize(50);
+    pushMatrix();
+      translate(70,height/2+ 200);
+      rotate(-PI/2);
+      text("TOP OF CANVAS",0,0);
+    popMatrix();
+    
+        pushMatrix();
+      translate(width,height/2 + 200);
+      rotate(-PI/2);
+      text("BASE OF CANVAS",0,0);
     popMatrix();
   }
   
@@ -116,11 +131,13 @@ class GridTool extends GridTiler
                               (int)(boundingBox[3]-boundingBox[1] + .5)};
   
         PGraphics buffer = createGraphics(bufferDims[0],bufferDims[1],P2D);    
-                                          
-        //calls to 'buffer' will crash if the dims are less than or equal to 0                                        
+         
+               
+        //calls to 'buffer' will crash if the dims are less than or equal to 0! << undocumented feature alert!                                        
         if(bufferDims[0] > 0 && bufferDims[1] > 0)
         {
           buffer.beginDraw();
+          buffer.smooth();
           buffer.clear();
           buffer.noStroke();
           buffer.fill(255);
@@ -133,7 +150,7 @@ class GridTool extends GridTiler
           buffer.endShape();
           buffer.endDraw();
   //        buffer.save("sakdjha.png");
-          buffer.save("sizes/"+x+"x"+y+".png");
+          buffer.save("sizes/"+x+"x"+y+"- .png");
           image(buffer,random(width),random(height));
         }
       }  

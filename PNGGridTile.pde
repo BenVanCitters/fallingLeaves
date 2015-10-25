@@ -5,6 +5,7 @@ class PNGGridTile extends BaseGridTile
 {
   //offset to line png up with grid
   float offset[] = {0,0};
+  PImage img;
   //***************************************************************
   //origin construtor
   //***************************************************************

@@ -11,7 +11,7 @@ float lastEndTick = 0;
 void setup()
 {
 //  size(displayWidth,displayHeight);
-  size(1024,768,P2D); //we will probably be dealing with a 1024x768 native res projector - that's what most are
+  size(800,600,P2D); //we are dealing with a 800x600 native res projector 
   
   gridTool = new GridTool(new float[]{width/2,height/2},50, PI/3, 2*PI/3.f);
   XML xml = loadXML("GridTiler.xml");
@@ -25,8 +25,8 @@ void setup()
 void draw()
 {
   background(50);
-  float xRad = mouseX*TWO_PI/width;
-  float yRad = mouseY*TWO_PI/height;
+  float xRad = PI/6.f;//mouseX*TWO_PI/width;
+  float yRad = -PI/6.f;//mouseY*TWO_PI/height;
   
   gridTool.rebuildGrid(50, xRad, yRad);
   float secondsSinceLastUpdate = (millis()-lastEndTick)/1000.f;
