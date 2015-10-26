@@ -24,6 +24,9 @@ class ParticleSystemTile extends AnimatedGridTile
   public void draw()
   {
     //TODO
+    pushStyle();
+    
+    popStyle();
   }
   
   // update tick

@@ -1,14 +1,12 @@
-//***************************************************************
-// uses a looping sequence of pngs to render a tile
-//***************************************************************
-class PNGSequenceGridTile extends AnimatedGridTile
+class RiverTile extends ProceduralAnimatedGridTile
 {
-    //offset to line png up with grid
-  float offset[] = {0,0};
+  float[] inDirection;
+  float[] outDirection;
+  
   //***************************************************************
   //origin construtor
   //***************************************************************
-  public PNGSequenceGridTile(int x, int y)
+  public RiverTile(int x, int y)
   {
     super(x,y);
   }
@@ -16,20 +14,32 @@ class PNGSequenceGridTile extends AnimatedGridTile
   //***************************************************************
   // XML constructor
   //***************************************************************
-  public PNGSequenceGridTile(XML xml)
+  public RiverTile(XML xml)
   {
     super(xml);
   }
   
   //***************************************************************
-  // actually draw this image sequence tile
+  // actually draw this tile
   //***************************************************************
   public void draw()
   {
-    pushStyle();
-    
-    popStyle();
     //fill me in
+    float[][] bases = gridTool.getBasisVectors();
+    pushStyle();
+      fill(255,0,0);
+      noStroke();
+      beginShape(TRIANGLE_STRIP);
+      vertex(0,0);
+      vertex(bases[0][0]*size[0],
+             bases[0][1]*size[0]);       
+             
+      vertex(bases[1][0]*size[1],
+             bases[1][1]*size[1]);
+      vertex(bases[0][0]*size[0] + bases[1][0]*size[1],
+             bases[0][1]*size[0] + bases[1][1]*size[1]); 
+      endShape();
+    popStyle();
   }
   
   //***************************************************************
@@ -37,7 +47,7 @@ class PNGSequenceGridTile extends AnimatedGridTile
   //***************************************************************
   public void update(float dt)
   {
-    //fill me in
+
   }
   
   //***************************************************************
@@ -46,6 +56,8 @@ class PNGSequenceGridTile extends AnimatedGridTile
   void loadWithXML(XML xml)
   {
     super.loadWithXML(xml);
+    inDirection = new float[]{1,0};
+    outDirection = new float[]{0,1};
     println("XML: Initializing " + this.getClass().getName());
   }
 }
