@@ -122,6 +122,8 @@ class GridTiler implements XMLLoadable
       {  tile = new StaticProceduralTile(currentTileXML); }
       else if(className == "AnimatedGridTile")
       {  tile = new AnimatedGridTile(currentTileXML); }
+      else if(className == "RiverTile")
+      {  tile = new RiverTile(currentTileXML); }
       else
       {
         println("XML: Error! Encountered unknown tile with class: " + className);
