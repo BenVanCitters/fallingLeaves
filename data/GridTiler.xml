@@ -2,7 +2,7 @@
 <GridTiler>
     <xAxis x="5" y="20" />
     <yAxis x="20" y="5" />
-    <origin x="512" y="384" />
+    <origin x="400" y="300" />
     <Tiles>
         <BaseGridTile x="5" y="5"/>
         <StaticProceduralTile x="2" y="1" w="3" h="4"/>
