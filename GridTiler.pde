@@ -69,6 +69,14 @@ class GridTiler implements XMLLoadable
     popMatrix();
   }
  
+
+  //***************************************************************
+  // grabs the basis vectors from us
+  //***************************************************************
+  float[][] getBasisVectors()
+  {
+    return new float[][]{{xAxis[0],xAxis[1]},{yAxis[0],yAxis[1]}};
+  }
   
   //***************************************************************
   // load fresh from disk

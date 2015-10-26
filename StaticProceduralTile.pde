@@ -30,7 +30,20 @@ class StaticProceduralTile extends BaseGridTile
   {
     //TODO
     fill(255,0,0);
-    ellipse(0,0,100,100);
+    float[][] bases = gridTool.getBasisVectors();
+    pushStyle();
+      noStroke();
+      beginShape(TRIANGLE_STRIP);
+      vertex(0,0);
+      vertex(bases[0][0]*size[0],
+             bases[0][1]*size[0]);       
+             
+      vertex(bases[1][0]*size[1],
+             bases[1][1]*size[1]);
+      vertex(bases[0][0]*size[0] + bases[1][0]*size[1],
+             bases[0][1]*size[0] + bases[1][1]*size[1]); 
+      endShape();
+    popStyle();
   }
   
   //***************************************************************

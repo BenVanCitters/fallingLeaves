@@ -2,7 +2,7 @@
 //falling leaves app
 //***************************************************************
 
-GridTool gridTool;
+static GridTiler gridTool;
 float lastEndTick = 0;
 
 //***************************************************************
@@ -28,7 +28,7 @@ void draw()
   float xRad = PI/6.f;//mouseX*TWO_PI/width;
   float yRad = -PI/6.f;//mouseY*TWO_PI/height;
   
-  gridTool.rebuildGrid(50, xRad, yRad);
+  ((GridTool)gridTool).rebuildGrid(50, xRad, yRad);
   float secondsSinceLastUpdate = (millis()-lastEndTick)/1000.f;
   gridTool.update(secondsSinceLastUpdate);
   gridTool.draw();
@@ -40,5 +40,5 @@ void draw()
 //***************************************************************
 void mouseClicked()
 {
-  gridTool.generateCutouts();
+  ((GridTool)gridTool).generateCutouts();
 }
