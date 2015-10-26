@@ -49,6 +49,7 @@ class PNGGridTile extends BaseGridTile
   public void draw()
   {
     //fill me in
+    image(img, 0, 0);
   }
   
  
