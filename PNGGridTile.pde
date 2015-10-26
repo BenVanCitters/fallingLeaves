@@ -7,9 +7,12 @@ static HashMap<String, PImage> imageFileCache = new HashMap<String, PImage>();
 //***************************************************************
 PImage loadCachedPNGFile(String filename) {
   PImage imageFile;
+  println("loadCachedPNGFile: " + filename);
   if(imageFileCache.containsKey(filename)) {
+    println("loading from cache.");
     imageFile = imageFileCache.get(filename);
   } else {
+    println("loading from disk.");
     imageFile = loadImage(filename);
     imageFileCache.put(filename, imageFile);
   }
@@ -23,7 +26,7 @@ PImage loadCachedPNGFile(String filename) {
 class PNGGridTile extends BaseGridTile
 {
   //offset to line png up with grid
-  float offset[] = {0,0};
+  float offset[];
   PImage img;
   //***************************************************************
   //origin construtor
@@ -49,14 +52,16 @@ class PNGGridTile extends BaseGridTile
   public void draw()
   {
     //fill me in
-    image(img, 0, 0);
+    image(img, -offset[0], -offset[1]);
   }
   
  
   // <PNGGridTile
- //  file=""
- // >
- // </PNGGridTile>
+  //  ...
+  //  file=""
+  //  offsetX=""
+  //  offsetY=""
+  // />
   //***************************************************************
   // load with XML
   //***************************************************************
@@ -65,11 +70,29 @@ class PNGGridTile extends BaseGridTile
     String filename = null;
     super.loadWithXML(xml);
     println("XML: Initializing " + this.getClass().getName());
+
     filename = xml.getString("file");
     if (null == filename) {
       println("XML: loadWithXML file attribute not found in xml!");
     } else {
       img = loadCachedPNGFile(filename);
     }
+    
+    offset = new float[2];
+    
+    if (xml.hasAttribute("offsetX")) {
+      offset[0] = xml.getInt("offsetX");
+    } else {
+      println("XML: loadWithXML offsetX not found in xml!");
+    }
+
+    if (xml.hasAttribute("offsetY")) {
+      offset[1] = xml.getInt("offsetY");
+    } else {
+      println("XML: loadWithXML offsetY not found in xml!");
+    }
+
+    println("offset: " + offset[0] + ", " + offset[1]);
+
   }
 }

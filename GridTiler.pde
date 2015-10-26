@@ -139,10 +139,12 @@ class GridTiler implements XMLLoadable
       {  tile = new AnimatedGridTile(currentTileXML); }
       else if(className == "RiverTile")
       {  tile = new RiverTile(currentTileXML); }
+      else if (className == "#text")
+      { /*do nothing empty whitespace nodes.*/}
       else
       {
         println("XML: Error! Encountered unknown tile with class: " + className);
-        println("XML: CONTENTS:" + currentTileXML + ":ENDCONTENTS");
+        println("XML: CONTENTS:\n    " + currentTileXML.format(0) + ":ENDCONTENTS");
       }
       if(tile != null)
       {

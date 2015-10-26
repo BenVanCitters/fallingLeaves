@@ -172,7 +172,7 @@ class GridTool extends GridTiler
           buffer.endShape();
           buffer.endDraw();
   //        buffer.save("sakdjha.png");
-          buffer.save("sizes/"+x+"x"+y+"- .png");
+          buffer.save("sizes/"+x+"x"+y+"-" + int(-boundingBox[0]) + "x"  + int(-boundingBox[1]) + ".png");
           image(buffer,random(width),random(height));
         }
       }  
