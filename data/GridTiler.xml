@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<GridTiler>
-    <xAxis x="5" y="20" />
-    <yAxis x="20" y="5" />
+<GridTiler scale="50">
+    <xAxis x="0.8660254" y="0.5" />
+    <yAxis x="0.8660254" y="-0.5" />
     <origin x="400" y="300" />
     <Tiles>
         <BaseGridTile x="5" y="5"/>
@@ -9,5 +9,20 @@
         <ProceduralAnimatedGridTile x="-3" y="-4"/>
         <PNGGridTile x="2" y="-3" file="1x1-b.png" />
         <PNGGridTile x="-3" y="2" file="1x1-g.png" />
+        <RiverTile x="1" y="0" inX="1" inY="0" outX="1" outY="0"  />
+        <RiverTile x="0" y="0" inX="1" inY="0" outX="0" outY="1"  />
+        <RiverTile x="-1" y="0" inX="1" inY="0" outX="0" outY="-1"  />
+        
+        <RiverTile x="1" y="-1" inX="-1" inY="0" outX="-1" outY="0"  />
+        <RiverTile x="0" y="-1" inX="-1" inY="0" outX="0" outY="1"  />
+        <RiverTile x="-1" y="-1" inX="-1" inY="0" outX="0" outY="-1"  />
+        
+        <RiverTile x="1" y="-2" inX="0" inY="1" outX="0" outY="1"  />
+        <RiverTile x="0" y="-2" inX="0" inY="1" outX="1" outY="0"  />
+        <RiverTile x="-1" y="-2" inX="0" inY="1" outX="-1" outY="0"  />
+        
+        <RiverTile x="1" y="-3" inX="0" inY="-1" outX="0" outY="-1"  />
+        <RiverTile x="0" y="-3" inX="0" inY="-1" outX="1" outY="0"  />
+        <RiverTile x="-1" y="-3" inX="0" inY="-1" outX="-1" outY="0"  />
     </Tiles>
 </GridTiler>

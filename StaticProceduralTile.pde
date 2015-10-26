@@ -30,7 +30,7 @@ class StaticProceduralTile extends BaseGridTile
   {
     //Temporary
     
-    float[][] bases = gridTool.getBasisVectors();
+    float[][] bases = gridTiles.getBasisVectors();
     pushStyle();
       fill(255,0,0);
       noStroke();

@@ -7,6 +7,13 @@
 //***************************************************************
 class GridTool extends GridTiler
 {
+    //***************************************************************
+  // xml - xml object containing serialized object
+  //***************************************************************
+  public GridTool(XML xml)
+  {
+    super(xml);
+  }
   
   //***************************************************************
   // origin: 2d vector screen space offset
@@ -24,11 +31,16 @@ class GridTool extends GridTiler
   //***************************************************************
   void rebuildGrid(float graphScale, float xAxisTheta, float yAxisTheta)
   {
-    xAxis = new float[]{graphScale*cos(xAxisTheta),
-                        graphScale*sin(xAxisTheta)};
+    xAxis = new float[]{cos(xAxisTheta),
+                        sin(xAxisTheta)};
   
-    yAxis = new float[]{graphScale*cos(yAxisTheta),
-                        graphScale*sin(yAxisTheta)}; 
+    yAxis = new float[]{cos(yAxisTheta),
+                        sin(yAxisTheta)}; 
+                        
+    println("GridTool: rebuildGrid: axes:<"+xAxis[0]+ "," +xAxis[1]+ "><" +yAxis[0]+ "," +yAxis[1]+"> - scale: " + graphScale);
+    // apply scaling
+    xAxis[0] *= graphScale; xAxis[1] *= graphScale;
+    yAxis[0] *= graphScale; yAxis[1] *= graphScale;
   }
   
   //***************************************************************
