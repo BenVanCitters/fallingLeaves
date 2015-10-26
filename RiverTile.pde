@@ -157,15 +157,44 @@ class RiverTile extends ProceduralAnimatedGridTile
   void loadWithXML(XML xml)
   {
     super.loadWithXML(xml);
-    int inX = xml.getInt("inX");
-    int inY = xml.getInt("inY");
-    inDirection = new int[]{inX,inY};
-    println("inDirection: " + inX + ", " + inY);
     
-    int outX = xml.getInt("outX");
-    int outY = xml.getInt("outY");
-    outDirection = new int[]{outX,outY};
-    println("outDirection: " + outX + ", " + outY);
+    String from = xml.getString("from");
+    println("from: " + from);
+    String to = xml.getString("to");
+    println("to: " + to);
+    if(from.equals("UL")){
+      inDirection = new int[]{0,1};
+    }else if(from.equals("LL")){
+      inDirection = new int[]{-1,0};
+    }else if(from.equals("UR")){
+      inDirection = new int[]{1,0};
+    }else if(from.equals("LR")){
+      inDirection = new int[]{0,-1};
+    }
+      
+    if(to.equals("UL")){
+      outDirection = new int[]{0,-1};
+    }else if(to.equals("LL")){
+      outDirection = new int[]{1,0};
+    }else if(to.equals("UR")){
+      outDirection = new int[]{-1,0};
+    }else if(to.equals("LR")){
+      outDirection = new int[]{0,1};
+    }
+    
+    
+    
+    
+    
+//    int inX = xml.getInt("inX");
+//    int inY = xml.getInt("inY");
+//    inDirection = new int[]{inX,inY};
+    println("inDirection: " + inDirection[0] + ", " + inDirection[1]);
+    
+//    int outX = xml.getInt("outX");
+//    int outY = xml.getInt("outY");
+//    outDirection = new int[]{outX,outY};
+    println("outDirection: " + outDirection[0] + ", " + outDirection[1]);
     
     println("XML: Initializing " + this.getClass().getName());
   }

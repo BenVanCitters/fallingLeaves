@@ -87,12 +87,15 @@ class GridTool extends GridTiler
     textSize(10);
     for(int i = graphRange[0]; i < graphRange[1]+1; i++)
     {
-  //    translate(xAxis[0]*i,xAxis[1]*i);
       for(int j = graphRange[0]; j < graphRange[1]+1; j++)
       {
+        pushMatrix();
         String posString = ""+ i + "," + j; 
-        text(posString, (i+.5)*xAxis[0]+(j+.5)*yAxis[0], 
-                     (i+.5)*xAxis[1]+(j+.5)*yAxis[1]); 
+        translate((i+.5)*xAxis[0]+(j+.5)*yAxis[0], 
+                     (i+.5)*xAxis[1]+(j+.5)*yAxis[1]);
+        if(DEBUG_MODE){rotate(-PI/2); translate(-14,0);}        
+        text(posString,0,0 );
+        popMatrix();
       }
     }
     popMatrix();
@@ -106,11 +109,18 @@ class GridTool extends GridTiler
       text("TOP OF CANVAS",0,0);
     popMatrix();
     
-        pushMatrix();
-      translate(width,height/2 + 200);
-      rotate(-PI/2);
-      text("BASE OF CANVAS",0,0);
-    popMatrix();
+   pushMatrix();
+     if(DEBUG_MODE)
+     {
+       translate(height,height/2 + 200);
+     }
+     else
+     { 
+       translate(width,height/2 + 200);
+     }
+     rotate(-PI/2);
+     text("BASE OF CANVAS",0,0);
+   popMatrix();
   }
   
 
