@@ -27,7 +27,9 @@ class BaseGridTile implements XMLLoadable
   //***************************************************************
   public void draw()
   {
+    pushStyle();
     
+    popStyle();
   }
   
   //***************************************************************

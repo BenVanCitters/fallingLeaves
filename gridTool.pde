@@ -7,6 +7,13 @@
 //***************************************************************
 class GridTool extends GridTiler
 {
+    //***************************************************************
+  // xml - xml object containing serialized object
+  //***************************************************************
+  public GridTool(XML xml)
+  {
+    super(xml);
+  }
   
   //***************************************************************
   // origin: 2d vector screen space offset
@@ -24,11 +31,16 @@ class GridTool extends GridTiler
   //***************************************************************
   void rebuildGrid(float graphScale, float xAxisTheta, float yAxisTheta)
   {
-    xAxis = new float[]{graphScale*cos(xAxisTheta),
-                        graphScale*sin(xAxisTheta)};
+    xAxis = new float[]{cos(xAxisTheta),
+                        sin(xAxisTheta)};
   
-    yAxis = new float[]{graphScale*cos(yAxisTheta),
-                        graphScale*sin(yAxisTheta)}; 
+    yAxis = new float[]{cos(yAxisTheta),
+                        sin(yAxisTheta)}; 
+                        
+    println("GridTool: rebuildGrid: axes:<"+xAxis[0]+ "," +xAxis[1]+ "><" +yAxis[0]+ "," +yAxis[1]+"> - scale: " + graphScale);
+    // apply scaling
+    xAxis[0] *= graphScale; xAxis[1] *= graphScale;
+    yAxis[0] *= graphScale; yAxis[1] *= graphScale;
   }
   
   //***************************************************************
@@ -75,12 +87,15 @@ class GridTool extends GridTiler
     textSize(10);
     for(int i = graphRange[0]; i < graphRange[1]+1; i++)
     {
-  //    translate(xAxis[0]*i,xAxis[1]*i);
       for(int j = graphRange[0]; j < graphRange[1]+1; j++)
       {
+        pushMatrix();
         String posString = ""+ i + "," + j; 
-        text(posString, (i+.5)*xAxis[0]+(j+.5)*yAxis[0], 
-                     (i+.5)*xAxis[1]+(j+.5)*yAxis[1]); 
+        translate((i+.5)*xAxis[0]+(j+.5)*yAxis[0], 
+                     (i+.5)*xAxis[1]+(j+.5)*yAxis[1]);
+        if(DEBUG_MODE){rotate(-PI/2); translate(-14,0);}        
+        text(posString,0,0 );
+        popMatrix();
       }
     }
     popMatrix();
@@ -94,11 +109,18 @@ class GridTool extends GridTiler
       text("TOP OF CANVAS",0,0);
     popMatrix();
     
-        pushMatrix();
-      translate(width,height/2 + 200);
-      rotate(-PI/2);
-      text("BASE OF CANVAS",0,0);
-    popMatrix();
+   pushMatrix();
+     if(DEBUG_MODE)
+     {
+       translate(height,height/2 + 200);
+     }
+     else
+     { 
+       translate(width,height/2 + 200);
+     }
+     rotate(-PI/2);
+     text("BASE OF CANVAS",0,0);
+   popMatrix();
   }
   
 
@@ -150,7 +172,7 @@ class GridTool extends GridTiler
           buffer.endShape();
           buffer.endDraw();
   //        buffer.save("sakdjha.png");
-          buffer.save("sizes/"+x+"x"+y+"- .png");
+          buffer.save("sizes/"+x+"x"+y+"-" + int(-boundingBox[0]) + "x"  + int(-boundingBox[1]) + ".png");
           image(buffer,random(width),random(height));
         }
       }  

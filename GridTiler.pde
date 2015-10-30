@@ -9,7 +9,14 @@ class GridTiler implements XMLLoadable
   protected float[] origin = {0,0};
   
   ArrayList<BaseGridTile> tiles = new ArrayList<BaseGridTile>();;
-
+  
+  //***************************************************************
+  // xml - xml object containing serialized object
+  //***************************************************************
+  public GridTiler(XML xml)
+  {
+    loadWithXML(xml);
+  }
   //***************************************************************
   // graphscale: scale of unit vectors
   // xAxisTheta: radian measurement of the xaxis
@@ -63,12 +70,19 @@ class GridTiler implements XMLLoadable
                 tile.position[0]*xAxis[1] + tile.position[1]*yAxis[1]);
       tile.draw();
 //println("tile.position: " + tile.position[0] + ", " + tile.position[1]);
-      
       popMatrix();
     }
     popMatrix();
   }
  
+
+  //***************************************************************
+  // grabs the basis vectors from us
+  //***************************************************************
+  float[][] getBasisVectors()
+  {
+    return new float[][]{{xAxis[0],xAxis[1]},{yAxis[0],yAxis[1]}};
+  }
   
   //***************************************************************
   // load fresh from disk
@@ -77,6 +91,10 @@ class GridTiler implements XMLLoadable
   {
     //init properties
     println("XML: Initializing " + this.getClass().getName());
+    
+    float graphScale = xml.getFloat("scale");
+    println("graphScale: " + graphScale);
+    
     XML xAxisElem = xml.getChild("xAxis");
     xAxis[0] = xAxisElem.getFloat("x");
     xAxis[1] = xAxisElem.getFloat("y");
@@ -87,6 +105,11 @@ class GridTiler implements XMLLoadable
     yAxis[1] = yAxisElem.getFloat("y");
     println("yaxis: " + yAxis[0] + ", " + yAxis[1]);
 
+    // apply scaling
+    xAxis[0] *= graphScale; xAxis[1] *= graphScale;
+    yAxis[0] *= graphScale; yAxis[1] *= graphScale;
+
+    
     XML originElem = xml.getChild("origin");
     origin[0] = originElem.getFloat("x");
     origin[1] = originElem.getFloat("y");
@@ -114,10 +137,14 @@ class GridTiler implements XMLLoadable
       {  tile = new StaticProceduralTile(currentTileXML); }
       else if(className == "AnimatedGridTile")
       {  tile = new AnimatedGridTile(currentTileXML); }
+      else if(className == "RiverTile")
+      {  tile = new RiverTile(currentTileXML); }
+      else if (className == "#text")
+      { /*do nothing empty whitespace nodes.*/}
       else
       {
         println("XML: Error! Encountered unknown tile with class: " + className);
-        println("XML: CONTENTS:" + currentTileXML + ":ENDCONTENTS");
+        println("XML: CONTENTS:\n    " + currentTileXML.format(0) + ":ENDCONTENTS");
       }
       if(tile != null)
       {

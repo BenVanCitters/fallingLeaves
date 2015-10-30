@@ -1,14 +1,11 @@
-//***************************************************************
-// uses a looping sequence of pngs to render a tile
-//***************************************************************
-class PNGSequenceGridTile extends AnimatedGridTile
+class ParticleSystemTile extends AnimatedGridTile
 {
-    //offset to line png up with grid
-  float offset[] = {0,0};
+  class particle{}
+  float lifetime = 0;
   //***************************************************************
   //origin construtor
   //***************************************************************
-  public PNGSequenceGridTile(int x, int y)
+  public ParticleSystemTile(int x, int y)
   {
     super(x,y);
   }
@@ -16,28 +13,27 @@ class PNGSequenceGridTile extends AnimatedGridTile
   //***************************************************************
   // XML constructor
   //***************************************************************
-  public PNGSequenceGridTile(XML xml)
+  public ParticleSystemTile(XML xml)
   {
     super(xml);
   }
   
   //***************************************************************
-  // actually draw this image sequence tile
+  // actually draw this tile
   //***************************************************************
   public void draw()
   {
+    //TODO
     pushStyle();
     
     popStyle();
-    //fill me in
   }
   
-  //***************************************************************
   // update tick
   //***************************************************************
   public void update(float dt)
   {
-    //fill me in
+    //TODO
   }
   
   //***************************************************************
@@ -47,5 +43,5 @@ class PNGSequenceGridTile extends AnimatedGridTile
   {
     super.loadWithXML(xml);
     println("XML: Initializing " + this.getClass().getName());
-  }
+  } 
 }

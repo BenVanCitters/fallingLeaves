@@ -1,8 +1,8 @@
 //***************************************************************
 //falling leaves app
 //***************************************************************
-
-GridTool gridTool;
+static final boolean DEBUG_MODE = true;
+static GridTiler gridTiles;
 float lastEndTick = 0;
 
 //***************************************************************
@@ -10,12 +10,18 @@ float lastEndTick = 0;
 //***************************************************************
 void setup()
 {
-//  size(displayWidth,displayHeight);
-  size(800,600,P2D); //we are dealing with a 800x600 native res projector 
+  if(DEBUG_MODE)
+  { size(600,800,P2D); }
+  else
+  { size(800,600,P2D); }//we are dealing with a 800x600 native res projector
   
-  gridTool = new GridTool(new float[]{width/2,height/2},50, PI/3, 2*PI/3.f);
   XML xml = loadXML("GridTiler.xml");
-  gridTool.loadWithXML(xml);
+  if(DEBUG_MODE)
+  { gridTiles = new GridTool(xml);}//new float[]{width/2,height/2},50, PI/3, 2*PI/3.f);
+  else
+  { gridTiles = new GridTiler(xml); }
+ 
+  gridTiles.loadWithXML(xml);
 }
 
 //***************************************************************
@@ -24,14 +30,16 @@ void setup()
 //***************************************************************
 void draw()
 {
+  if(DEBUG_MODE)
+  { 
+    translate(width,0);
+    rotate(PI/2);
+  }
   background(50);
-  float xRad = PI/6.f;//mouseX*TWO_PI/width;
-  float yRad = -PI/6.f;//mouseY*TWO_PI/height;
-  
-  gridTool.rebuildGrid(50, xRad, yRad);
+
   float secondsSinceLastUpdate = (millis()-lastEndTick)/1000.f;
-  gridTool.update(secondsSinceLastUpdate);
-  gridTool.draw();
+  gridTiles.update(secondsSinceLastUpdate);
+  gridTiles.draw();
   lastEndTick = millis();
 }
 
@@ -40,5 +48,6 @@ void draw()
 //***************************************************************
 void mouseClicked()
 {
-  gridTool.generateCutouts();
+  if(DEBUG_MODE)
+    ((GridTool)gridTiles).generateCutouts();
 }
