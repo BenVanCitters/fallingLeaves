@@ -8,6 +8,7 @@ static GridTiler gridTiles;
 float lastEndTick = 0;
 
 static boolean edit_mode = false;
+static boolean display_leaf_system = true;
 
 static LeafSystem leafs;
 
@@ -29,7 +30,7 @@ void setup()
  
   gridTiles.loadWithXML(xml);
   
-  leafs = new LeafSystem(20);
+  leafs = new LeafSystem(20, "leafSystem.png");
 }
 
 void drawBackground()
@@ -73,7 +74,10 @@ void draw()
   
   if (DEBUG_MODE) {
     popMatrix();
-    leafs.displaySpawnData();
+  }
+  
+  if (edit_mode || display_leaf_system) {
+     leafs.displaySpawnData();
   }
 }
 
@@ -114,6 +118,13 @@ void keyPressed()
     display_background ^= true;
   }
   if ((key == 'e') || (key == 'E')) {
+    if (edit_mode) {
+      leafs.finishSpawnMask();
+      display_leaf_system = true;
+    }
     edit_mode ^= true;
+  }
+  if ((key == 'l') || (key == 'L')) {
+    display_leaf_system ^= true;
   }
 }
