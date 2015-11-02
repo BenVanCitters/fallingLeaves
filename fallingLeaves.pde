@@ -30,7 +30,9 @@ void setup()
  
   gridTiles.loadWithXML(xml);
   
-  leafs = new LeafSystem(20, "leafSystem.png");
+  leafs = new LeafSystem(20, "leafSystem.png", 50);
+  
+  leafs.spawn();
 }
 
 void drawBackground()
@@ -75,6 +77,8 @@ void draw()
   if (DEBUG_MODE) {
     popMatrix();
   }
+  
+  leafs.draw();
   
   if (edit_mode || display_leaf_system) {
      leafs.displaySpawnData();
