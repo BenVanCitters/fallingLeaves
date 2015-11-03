@@ -38,11 +38,12 @@ class LeafSystem {
 
   String fileName;
 
-  LeafSystem(float r, String fn, int cntLeaves){
+// create a leaf
+  LeafSystem(float Radius, String FileName, int leafCount){
 
     leafSpawnPts = new ArrayList<Point>();
 
-    fileName = dataPath(fn);
+    fileName = dataPath(FileName);
     loadLeafSystemFile();
     
     pg = createGraphics(width, height);
@@ -55,24 +56,27 @@ class LeafSystem {
     pg.fill(color(255,255,0));
     pg.noStroke();
     pg.endDraw();
-    radius = r;
+    radius = Radius;
     
-    leaves = new Leaf[cntLeaves];
+    leaves = new Leaf[leafCount];
     loadLeafImages();
   }
   
+  // go through our mask and add points for anything that isn't pure
+  // black and clear...
   void ingestLeafData() {
     img.loadPixels();
-    for (int i = 0; i < img.width; i++) {
-      for (int j = 0; j < img.height; j++) {
-        if (0 != img.pixels[i *img.width + j]) {
+    for (int y = 0; y < img.width; y++) {
+      for (int x = 0; x < img.height; x++) {
+        if (0 != img.pixels[y *img.width + x]) {
           //println("adding spawnpoint " + i + "," + j);
-          leafSpawnPts.add(new Point(j, i)); // I don't know why these are reveresed...
+          leafSpawnPts.add(new Point(x, y)); // I don't know why these are reveresed...
         }
       }
     }
   }
   
+  // load leaf file from disk and ingest it.
   void loadLeafSystemFile() {
     File f = new File(fileName);
     
@@ -82,8 +86,13 @@ class LeafSystem {
       img = loadImage(fileName);
       ingestLeafData();
     }
+    else
+    {
+      println(fileName + " doesn't exist - We are probably going to crash now.");
+    }
   }
 
+// save the leaf region to disk
   void saveLeafSystemFile() {
     pg.save(fileName);
     loadLeafSystemFile();
@@ -101,12 +110,15 @@ class LeafSystem {
     leafImages[3] = loadCachedPNGFile("leaf4.png");
   }
 
+// draws an ellipse at x,y with radius 'radius'
   void addSpawnPoint(int x, int y) {
     pg.beginDraw();
     pg.ellipse(x, y, radius, radius);
     pg.endDraw();
   }
   
+  //perform post-processing on the mask file - modifying the alpha channel
+  // and then save it to file
   void finishSpawnMask() {
     pg.beginDraw();
     for (int i = 0; i < pg.width; i++) {
@@ -126,6 +138,11 @@ class LeafSystem {
   }
   
   void spawn() {
+    if(leafSpawnPts == null || leafSpawnPts.size() <1)
+    {
+      println(this.getClass() + " we got a damn problem.");
+      return;
+    }
     for (int i = 0; i < leaves.length; i++) {
       Point p = leafSpawnPts.get(int(random(leafSpawnPts.size())));
       PImage leafImg = leafImages[int(random(leafImages.length))];
@@ -133,14 +150,22 @@ class LeafSystem {
     }
   }
   
+  //render the leaf system
   void draw() {
-    //println("drawing leaves.");
-    imageMode(CENTER);
-    for (Leaf l : leaves) {
-      l.draw();
+    try{
+      //println("drawing leaves.");
+      imageMode(CENTER);
+      for (Leaf l : leaves) {
+        l.draw();
+      }
+      imageMode(CORNER);
     }
-    imageMode(CORNER);
+    catch(Exception e)
+    {
+      println(this.getClass() + ":draw: " + e);
+    }
   }
+  
   
   void update(float dt) {
     

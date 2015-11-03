@@ -106,7 +106,7 @@ void mouseDragged() {
 
 void saveScreenToPicture()
 {
-  saveFrame("screenCapture.png");
+  save("screenCap/fallingLeaves-"+year()+"-"+month()+"-"+day()+":"+hour()+":"+minute()+":"+second()+":"+millis() +".png");
 }
 
 void keyPressed()
