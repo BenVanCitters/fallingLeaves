@@ -1,6 +1,6 @@
 static final float fullScreenFallTime = 4.0;
 static final float tumblesPerFullScreenFall = 5;
-static final float rotationalVelocity = 5*TWO_PI/fullScreenFallTime;
+static final float maxRotationalVelocity = 5*TWO_PI/fullScreenFallTime;
 static final float[] rotationDirections = {-1,1};
 
 class LeafSystem {
@@ -25,16 +25,17 @@ class LeafSystem {
     
     float rad;
     float rotateDir;
+    float rotationalVelocity;
     color c;
 
     color randLeafColor() {
       float r,g;
-      if (1 < random(3)) {
+      if (1 < random(4)) {
         r = random(128, 255);
         g = random(r-128);
       } else {
         r = 128 + random(128);
-        g = 128 + random(r - 18);
+        g = 128 + random(r - 128);
       }
       return color(r,g,0);
     }    
@@ -75,6 +76,7 @@ class LeafSystem {
         
         if (p < s) {
           falling = true;
+          rotationalVelocity = maxRotationalVelocity*random(.2,1);
         }
       }
       
