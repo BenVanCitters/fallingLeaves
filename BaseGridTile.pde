@@ -8,6 +8,7 @@ class BaseGridTile implements XMLLoadable
   int[] size = {1,1};
   
   private ArrayList<BaseGridTile> subTiles = new ArrayList<BaseGridTile>();
+  private BaseGridTile parentTile;
   
   //***************************************************************
   //origin construtor
