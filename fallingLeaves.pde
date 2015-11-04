@@ -1,7 +1,7 @@
 //***************************************************************
 //falling leaves app
 //***************************************************************
-final boolean DEBUG_MODE = false;
+final boolean DEBUG_MODE = true;
 static boolean display_background = true;
 static PImage imgBackground = null;
 static GridTiler gridTiles;
@@ -40,11 +40,10 @@ void drawBackground()
   pushMatrix();
   if(DEBUG_MODE)
   { 
-//    translate(0,width);
-//    rotate(-PI/2);
-  }  
-  
-  translate(0,height);
+    translate(0,width);
+  } else { 
+    translate(0,height);
+  }
   rotate(-PI/2);
   
   if (null == imgBackground) {

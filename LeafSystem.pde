@@ -25,7 +25,19 @@ class LeafSystem {
     
     float rad;
     float rotateDir;
-    
+    color c;
+
+    color randLeafColor() {
+      float r,g;
+      if (1 < random(3)) {
+        r = random(128, 255);
+        g = random(r-128);
+      } else {
+        r = 128 + random(128);
+        g = 128 + random(r - 18);
+      }
+      return color(r,g,0);
+    }    
     Leaf(Point ipt, PImage iimg) {
       pt = ipt;
       img = iimg;
@@ -34,16 +46,17 @@ class LeafSystem {
       
       rad = random(-PI, PI);  // this should be where the position gets set.
       rotateDir = rotationDirections[int(random(2))];
+      c = randLeafColor();
     }
     
     void draw() {
       pushMatrix();
-      pushStyle();
-        translate(pt.x, pt.y);
-tint(128+random(128),128+random(128),0);
-        rotate(rad);
-        image(img, 0, 0, 50, 50);
-      popStyle();
+        pushStyle();
+          translate(pt.x, pt.y);
+          tint(c);
+          rotate(rad);
+          image(img, 0, 0, 50, 50);
+        popStyle();
       popMatrix();
       
     }
@@ -87,7 +100,8 @@ tint(128+random(128),128+random(128),0);
     { 
       pg.translate(0,width);
       pg.rotate(-PI/2);
-    }
+    } 
+    
     pg.background(img); 
     pg.popMatrix();
   }
@@ -188,7 +202,13 @@ tint(128+random(128),128+random(128),0);
   }
   
   void displaySpawnData(){
-    image(pg, 0, 0);
+    pushMatrix();
+      if (!DEBUG_MODE) {
+        translate(0,height);
+        rotate(-PI/2);
+      }
+      image(pg, 0, 0);
+    popMatrix();
   }
   
   Leaf spawnLeaf() {
@@ -214,8 +234,11 @@ tint(128+random(128),128+random(128),0);
   //render the leaf system
   void draw() {
     pushMatrix();
-    translate(0,height);
-    rotate(-PI/2);
+
+    if (!DEBUG_MODE) {
+      translate(0,height);
+      rotate(-PI/2);
+    }
     
     try{
       //println("drawing leaves.");
