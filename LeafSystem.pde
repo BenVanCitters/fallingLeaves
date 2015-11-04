@@ -252,7 +252,7 @@ class LeafSystem {
     }
     catch(Exception e)
     {
-      println(this.getClass() + ":draw: " + e);
+//      println(this.getClass() + ":draw: " + e);
     }
     popMatrix();
   }

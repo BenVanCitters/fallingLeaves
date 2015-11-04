@@ -1,3 +1,4 @@
+
 //***************************************************************
 //falling leaves app
 //***************************************************************
@@ -12,6 +13,7 @@ static boolean display_leaf_system = true;
 
 static LeafSystem leafs;
 
+//FluidMotionReceiver fmr;
 //***************************************************************
 // called to set everything up
 //***************************************************************
@@ -33,6 +35,9 @@ void setup()
   leafs = new LeafSystem(50, "leafSystem.png", 50);
   
   leafs.spawn();
+  
+  println("classname: " + super.getClass().getSuperclass());
+//  fmr = new FluidMotionReceiver(this,"videoFluidSyphon");
 }
 
 void drawBackground()
@@ -89,6 +94,7 @@ void draw()
   if (edit_mode || display_leaf_system) {
      leafs.displaySpawnData();
   }
+//  fmr.update();
 }
 
 //***************************************************************

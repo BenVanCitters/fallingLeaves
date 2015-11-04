@@ -47,6 +47,17 @@ class PNGGridTile extends BaseGridTile
   }
   
   //***************************************************************
+  // 
+  //***************************************************************
+  public PNGGridTile(int[] pos, int[] sz, String fileName )
+  {
+    super(pos[0],pos[1],sz[0],sz[1]);
+
+      img = loadCachedPNGFile(fileName);
+//    super(xml);
+  }
+  
+  //***************************************************************
   // actually draw a PNG tile
   //***************************************************************
   public void draw()

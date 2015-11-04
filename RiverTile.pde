@@ -357,10 +357,6 @@ class RiverTile extends ProceduralAnimatedGridTile
       outDirection = new int[]{0,1};
     }
     
-    
-    
-    
-    
 //    int inX = xml.getInt("inX");
 //    int inY = xml.getInt("inY");
 //    inDirection = new int[]{inX,inY};
