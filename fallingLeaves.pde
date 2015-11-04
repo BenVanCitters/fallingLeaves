@@ -13,7 +13,7 @@ static boolean display_leaf_system = true;
 
 static LeafSystem leafs;
 
-FluidMotionReceiver fmr;
+//FluidMotionReceiver fmr;
 //***************************************************************
 // called to set everything up
 //***************************************************************
@@ -37,7 +37,7 @@ void setup()
   leafs.spawn();
   
   println("classname: " + super.getClass().getSuperclass());
-  fmr = new FluidMotionReceiver(this,"videoFluidSyphon");
+//  fmr = new FluidMotionReceiver(this,"videoFluidSyphon");
 }
 
 void drawBackground()
@@ -94,7 +94,7 @@ void draw()
   if (edit_mode || display_leaf_system) {
      leafs.displaySpawnData();
   }
-  fmr.update();
+//  fmr.update();
 }
 
 //***************************************************************
