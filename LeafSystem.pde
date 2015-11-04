@@ -38,10 +38,14 @@ class LeafSystem {
     
     void draw() {
       pushMatrix();
+      pushStyle();
         translate(pt.x, pt.y);
+tint(128+random(128),128+random(128),0);
         rotate(rad);
         image(img, 0, 0, 50, 50);
+      popStyle();
       popMatrix();
+      
     }
     
     void update(float dt) {

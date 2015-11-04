@@ -21,7 +21,7 @@ void setup()
   { size(600,800,P2D); }
   else
   { size(800,600,P2D); }//we are dealing with a 800x600 native res projector
-  
+  noCursor();
   XML xml = loadXML("GridTiler.xml");
   if(DEBUG_MODE)
   { gridTiles = new GridTool(xml);}//new float[]{width/2,height/2},50, PI/3, 2*PI/3.f);
