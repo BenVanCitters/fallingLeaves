@@ -1,3 +1,4 @@
+import java.util.Hashtable;
 //***************************************************************
 // grid responsible for managing, drawingm and updating all of the
 // animated an non animated tiles
@@ -8,14 +9,17 @@ class GridTiler implements XMLLoadable
   protected float[] yAxis = {5,20};
   protected float[] origin = {0,0};
   
-  ArrayList<BaseGridTile> tiles = new ArrayList<BaseGridTile>();;
-  
+  //  table of tiles that come from xml
+  Hashtable<int[],BaseGridTile> xmlTiles = new Hashtable<int[],BaseGridTile>();
+  //table of tile that we generate ourselves
+  Hashtable<int[],BaseGridTile> genTiles = new Hashtable<int[],BaseGridTile>();
   //***************************************************************
   // xml - xml object containing serialized object
   //***************************************************************
   public GridTiler(XML xml)
   {
     loadWithXML(xml);
+    populateNearbyTiles();
   }
   //***************************************************************
   // graphscale: scale of unit vectors
@@ -42,14 +46,40 @@ class GridTiler implements XMLLoadable
     yAxis = new float[]{graphScale*cos(yAxisTheta),
                         graphScale*sin(yAxisTheta)}; 
   }
-  
+
+  //***************************************************************
+  // populate nearby tiles
+  //***************************************************************
+  private void populateNearbyTiles()
+  {
+    int[] dims = {-10,10};
+    for(int i = dims[0]; i < dims[1]; i++)
+    {
+      for(int j = dims[0]; j < dims[1]; j++)
+      {
+        int[] currentPos={i,j};
+        BaseGridTile tmp = xmlTiles.get(currentPos);
+        if(tmp == null)
+        {
+            StaticProceduralTile spt = new StaticProceduralTile(i,j);
+            genTiles.put(currentPos,spt);
+        } 
+        
+      }
+    }
+  }
+
 
   //***************************************************************
   // updates all tiles and the grid itself
   //***************************************************************
   void update(float dt)
-  {
-    for(BaseGridTile tile : tiles)
+  { 
+    for(BaseGridTile tile : xmlTiles.values())
+    {
+      tile.update(dt);
+    }
+    for(BaseGridTile tile : genTiles.values())
     {
       tile.update(dt);
     }
@@ -63,7 +93,17 @@ class GridTiler implements XMLLoadable
     pushMatrix();
     translate(origin[0],origin[1]);
 //    background(255,0,0);
-    for(BaseGridTile tile : tiles)
+    for(BaseGridTile tile : xmlTiles.values())
+    {
+      pushMatrix();
+      translate(tile.position[0]*xAxis[0] + tile.position[1]*yAxis[0], 
+                tile.position[0]*xAxis[1] + tile.position[1]*yAxis[1]);
+      tile.draw();
+//println("tile.position: " + tile.position[0] + ", " + tile.position[1]);
+      popMatrix();
+    }
+    
+    for(BaseGridTile tile : genTiles.values())
     {
       pushMatrix();
       translate(tile.position[0]*xAxis[0] + tile.position[1]*yAxis[0], 
@@ -148,7 +188,7 @@ class GridTiler implements XMLLoadable
       }
       if(tile != null)
       {
-         tiles.add(tile);
+         xmlTiles.put(new int[]{tile.position[0],tile.position[0]},tile);
       }
     }
   }
