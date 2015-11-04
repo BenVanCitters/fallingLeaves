@@ -5,21 +5,41 @@ import java.util.Hashtable;
 //***************************************************************
 class GridTiler implements XMLLoadable
 {
+  private class pos
+  {
+    int x;int y;
+    public pos(int x1, int y1){this.x = x1; this.y = y1;}
+    @Override public boolean equals(Object o) {
+      println("calledequals");
+    return (o instanceof pos) && (this.x == ((pos) o).x) && (this.y == ((pos) o).y);
+    }
+    @Override public int hashCode()
+    {
+//      println("calledhash");
+      int code = super.hashCode();
+      code = (x>>16)|(y);
+      println("code: " +code);
+      return code;
+    }
+  }
+  
   protected float[] xAxis = {20,5};
   protected float[] yAxis = {5,20};
   protected float[] origin = {0,0};
   
+  ArrayList<BaseGridTile> xmlTiles = new ArrayList<BaseGridTile>();
+    ArrayList<BaseGridTile> genTiles = new ArrayList<BaseGridTile>();
   //  table of tiles that come from xml
-  Hashtable<int[],BaseGridTile> xmlTiles = new Hashtable<int[],BaseGridTile>();
+//  Hashtable<pos,BaseGridTile> xmlTiles = new Hashtable<pos,BaseGridTile>();
   //table of tile that we generate ourselves
-  Hashtable<int[],BaseGridTile> genTiles = new Hashtable<int[],BaseGridTile>();
+//  Hashtable<pos,BaseGridTile> genTiles = new Hashtable<pos,BaseGridTile>();
   //***************************************************************
   // xml - xml object containing serialized object
   //***************************************************************
   public GridTiler(XML xml)
   {
     loadWithXML(xml);
-    populateNearbyTiles();
+//    populateNearbyTiles();
   }
   //***************************************************************
   // graphscale: scale of unit vectors
@@ -48,23 +68,27 @@ class GridTiler implements XMLLoadable
   }
 
   //***************************************************************
-  // populate nearby tiles
+  // populate nearby tiles (with a terrible O(n^2) alg because I 
+  // can't figure out how to get java's hash maps or hash tables 
+  // to do what I want them to here... 
   //***************************************************************
   private void populateNearbyTiles()
   {
-    int[] dims = {-10,10};
+    int[] dims = {-12,12};
     for(int i = dims[0]; i < dims[1]; i++)
     {
       for(int j = dims[0]; j < dims[1]; j++)
       {
-        int[] currentPos={i,j};
-        BaseGridTile tmp = xmlTiles.get(currentPos);
-        if(tmp == null)
+        boolean occupied = false;
+        for(BaseGridTile tile : xmlTiles) 
+        {
+          occupied = occupied || ((tile.position[0] == i) && (tile.position[1] == j));  
+        }
+        if(!occupied)
         {
             StaticProceduralTile spt = new StaticProceduralTile(i,j);
-            genTiles.put(currentPos,spt);
-        } 
-        
+            genTiles.add(spt);
+         }
       }
     }
   }
@@ -75,11 +99,11 @@ class GridTiler implements XMLLoadable
   //***************************************************************
   void update(float dt)
   { 
-    for(BaseGridTile tile : xmlTiles.values())
+    for(BaseGridTile tile : xmlTiles)
     {
       tile.update(dt);
     }
-    for(BaseGridTile tile : genTiles.values())
+    for(BaseGridTile tile : genTiles)
     {
       tile.update(dt);
     }
@@ -93,7 +117,7 @@ class GridTiler implements XMLLoadable
     pushMatrix();
     translate(origin[0],origin[1]);
 //    background(255,0,0);
-    for(BaseGridTile tile : xmlTiles.values())
+    for(BaseGridTile tile : xmlTiles)
     {
       pushMatrix();
       translate(tile.position[0]*xAxis[0] + tile.position[1]*yAxis[0], 
@@ -103,7 +127,7 @@ class GridTiler implements XMLLoadable
       popMatrix();
     }
     
-    for(BaseGridTile tile : genTiles.values())
+    for(BaseGridTile tile : genTiles)
     {
       pushMatrix();
       translate(tile.position[0]*xAxis[0] + tile.position[1]*yAxis[0], 
@@ -188,8 +212,28 @@ class GridTiler implements XMLLoadable
       }
       if(tile != null)
       {
-         xmlTiles.put(new int[]{tile.position[0],tile.position[0]},tile);
+//          tiles.add(new pos(tile.position[0],tile.position[0]),tile);
+//         xmlTiles.add(tile);
+         addTile(xmlTiles,tile);
       }
+    }
+  }
+  
+  void addTile(ArrayList<BaseGridTile> list, BaseGridTile tile)
+  {
+    list.add(tile);
+    for(BaseGridTile t : tile.subTiles)
+    {
+      list.add(t);
+    }
+  }
+  
+  void removeTile(ArrayList<BaseGridTile> list, BaseGridTile tile)
+  {
+    list.remove(tile);
+    for(BaseGridTile t : tile.subTiles)
+    {
+      list.remove(t);
     }
   }
 }
