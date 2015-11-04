@@ -179,19 +179,19 @@ class GridTool extends GridTiler
     }
   }
 
-  //***************************************************************
-  //takes four xy coords (float arrays) and returns the axis aligned 
-  //bounding box {left,top,right,bottom} (also a float array...)
-  //basically a helper method for the generate cutouts method
-  //***************************************************************
-  float[] getBoundingBox(float[] a,float[] b,float[] c,float[] d)
-  {
-    float minX = min(a[0],min(b[0],min(c[0],d[0])));
-    float minY = min(a[1],min(b[1],min(c[1],d[1])));
-    float maxX = max(a[0],max(b[0],max(c[0],d[0])));
-    float maxY = max(a[1],max(b[1],max(c[1],d[1])));
-    return new float[]{minX,minY,maxX,maxY};
-  }
 }
 
+//***************************************************************
+//takes four xy coords (float arrays) and returns the axis aligned 
+//bounding box {left,top,right,bottom} (also a float array...)
+//basically a helper method for the generate cutouts method
+//***************************************************************
+float[] getBoundingBox(float[] a,float[] b,float[] c,float[] d)
+{
+  float minX = min(a[0],min(b[0],min(c[0],d[0])));
+  float minY = min(a[1],min(b[1],min(c[1],d[1])));
+  float maxX = max(a[0],max(b[0],max(c[0],d[0])));
+  float maxY = max(a[1],max(b[1],max(c[1],d[1])));
+  return new float[]{minX,minY,maxX,maxY};
+}
 
