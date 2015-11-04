@@ -1,3 +1,48 @@
+static final float jumpHalfLife = 30.0;
+static final float fishJumpTime = 1.5;
+
+static int bufX;
+static int bufY;
+
+static int wFishImg;
+static int hFishImg;
+
+PImage imgMask;
+
+
+//***************************************************************
+// This function sets up the constants used by the river
+//***************************************************************
+void setupRiverTiles() {
+  float[][] bases = gridTiles.getBasisVectors();
+  float[][] corners = { {0,0},
+                        {bases[0][0], bases[0][1]},
+                        {bases[1][0], bases[1][1]},
+                        {bases[0][0] + bases[1][0], bases[0][1] + bases[1][1]}
+                      };
+  float[] bndBox;
+  
+  PImage imgFish;
+  
+  float w,h;
+  
+  bndBox = getBoundingBox(corners[0], corners[1], corners[2], corners[3]);
+
+  bufX = int(bndBox[2]);
+  bufY = int(bndBox[3]);
+    
+  imgMask = createImage(bufX, bufY, RGB);
+  
+  imgFish = loadCachedPNGFile("salmongong.png");
+  
+  w = imgFish.width;
+  h = imgFish.height;
+
+  
+  
+}
+
+
 //***************************************************************
 // directional river tiles!
 //***************************************************************
@@ -5,6 +50,11 @@ class RiverTile extends ProceduralAnimatedGridTile
 {
   protected int[] inDirection;
   protected int[] outDirection;
+
+  boolean fishJumping;
+  float jumpT;
+  
+  PGraphics pg;
   
   //***************************************************************
   //origin construtor
@@ -12,6 +62,8 @@ class RiverTile extends ProceduralAnimatedGridTile
   public RiverTile(int x, int y)
   {
     super(x,y);
+    fishJumping = false;
+    pg = createGraphics(bufX,bufY);
   }
   
   //***************************************************************
@@ -27,6 +79,38 @@ class RiverTile extends ProceduralAnimatedGridTile
   //***************************************************************
   public void draw()
   {
+    /*
+    float[][] bases = gridTiles.getBasisVectors();
+    pushStyle();
+      noStroke();
+      fill(100,100,255);
+      beginShape(TRIANGLE_STRIP);
+      vertex(0,0);
+      vertex(bases[0][0],
+             bases[0][1]);       
+             
+      vertex(bases[1][0],
+             bases[1][1]);
+      vertex(bases[0][0] + bases[1][0],
+             bases[0][1] + bases[1][1]); 
+      endShape();
+      
+      if (fishJumping) {
+        imageMode(CENTER);
+        PImage salImg = loadCachedPNGFile("salmongong.png");
+        float w = salImg.width;
+        float h = salImg.height;
+        float dw = 40;
+        float r = dw/w;
+        float dh = r*h;
+        float x = (bases[0][0] + bases[1][0])/2;
+        float y = (bases[0][1] + bases[1][1])/2;
+        image(salImg,x,y,dw,dh);        
+      }
+      
+    popStyle();
+    */
+
     float[][] bases = gridTiles.getBasisVectors();
     pushStyle();
       noStroke();
@@ -62,6 +146,7 @@ class RiverTile extends ProceduralAnimatedGridTile
       }
 
     popStyle();
+
   }
   
   float[] getDirectionForNormalizedPosition(float[] pos, float[][] bases)
@@ -148,7 +233,19 @@ class RiverTile extends ProceduralAnimatedGridTile
   //***************************************************************
   public void update(float dt)
   {
-
+    if (fishJumping) {
+      jumpT += dt;
+      if (fishJumpTime <= jumpT) {
+        fishJumping = false;
+      }
+    } else {
+      float p = dt/(2*jumpHalfLife);
+      float r = random(1);
+      if (r < p) {
+        fishJumping = true;
+        jumpT = 0;
+      }
+    }
   }
   
   //***************************************************************

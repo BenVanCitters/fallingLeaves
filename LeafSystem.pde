@@ -1,3 +1,7 @@
+static final float fullScreenFallTime = 4.0;
+static final float tumblesPerFullScreenFall = 5;
+static final float rotationalVelocity = 5*TWO_PI/fullScreenFallTime;
+static final float[] rotationDirections = {-1,1};
 
 class LeafSystem {
 
@@ -13,15 +17,67 @@ class LeafSystem {
   
   class Leaf {
     Point pt;
+    
+    boolean falling;
+    boolean offScreen;
+
     PImage img;
     
+    float rad;
+    float rotateDir;
+    color c;
+
+    color randLeafColor() {
+      float r,g;
+      if (1 < random(3)) {
+        r = random(128, 255);
+        g = random(r-128);
+      } else {
+        r = 128 + random(128);
+        g = 128 + random(r - 18);
+      }
+      return color(r,g,0);
+    }    
     Leaf(Point ipt, PImage iimg) {
       pt = ipt;
       img = iimg;
+      falling = false;
+      offScreen = false;
+      
+      rad = random(-PI, PI);  // this should be where the position gets set.
+      rotateDir = rotationDirections[int(random(2))];
+      c = randLeafColor();
     }
     
     void draw() {
-      image(img, pt.x, pt.y, 50, 50);
+      pushMatrix();
+        pushStyle();
+          translate(pt.x, pt.y);
+          tint(c);
+          rotate(rad);
+          image(img, 0, 0, 50, 50);
+        popStyle();
+      popMatrix();
+      
+    }
+    
+    void update(float dt) {
+      
+      if (falling) {
+        pt.y += dt*(800.0/fullScreenFallTime);
+        rad += dt*rotateDir*rotationalVelocity;
+        if (height < pt.y) {
+          offScreen = true;
+        }
+      } else {
+        float s = dt/30.0;
+        float p = random(1);
+        
+        if (p < s) {
+          falling = true;
+        }
+      }
+      
     }
   }
   
@@ -38,7 +94,19 @@ class LeafSystem {
 
   String fileName;
 
-// create a leaf
+  void drawBackgroundImg() {
+    pg.pushMatrix();
+    if(DEBUG_MODE)
+    { 
+      pg.translate(0,width);
+      pg.rotate(-PI/2);
+    } 
+    
+    pg.background(img); 
+    pg.popMatrix();
+  }
+
+  // create a leaf
   LeafSystem(float Radius, String FileName, int leafCount){
 
     leafSpawnPts = new ArrayList<Point>();
@@ -46,12 +114,12 @@ class LeafSystem {
     fileName = dataPath(FileName);
     loadLeafSystemFile();
     
-    pg = createGraphics(width, height);
+    pg = createGraphics(600, 800);
     pg.beginDraw();
     if (null == img) {
       pg.background(color(0),0);
     } else {
-      pg.background(img);
+      drawBackgroundImg();
     }
     pg.fill(color(255,255,0));
     pg.noStroke();
@@ -98,7 +166,7 @@ class LeafSystem {
     loadLeafSystemFile();
     pg.beginDraw();
     pg.clear();
-    pg.background(img);    
+    drawBackgroundImg();    
     pg.endDraw();
   }
 
@@ -134,7 +202,22 @@ class LeafSystem {
   }
   
   void displaySpawnData(){
-    image(pg, 0, 0);
+    pushMatrix();
+      if (!DEBUG_MODE) {
+        translate(0,height);
+        rotate(-PI/2);
+      }
+      image(pg, 0, 0);
+    popMatrix();
+  }
+  
+  Leaf spawnLeaf() {
+    Point p = leafSpawnPts.get(int(random(leafSpawnPts.size())));
+    PImage leafImg = leafImages[int(random(leafImages.length))];
+    Leaf newLeaf = new Leaf(p, leafImg);
+    
+    return newLeaf;
+    
   }
   
   void spawn() {
@@ -144,14 +227,19 @@ class LeafSystem {
       return;
     }
     for (int i = 0; i < leaves.length; i++) {
-      Point p = leafSpawnPts.get(int(random(leafSpawnPts.size())));
-      PImage leafImg = leafImages[int(random(leafImages.length))];
-      leaves[i] = new Leaf(p, leafImg);
+      leaves[i] = spawnLeaf();
     }
   }
   
   //render the leaf system
   void draw() {
+    pushMatrix();
+
+    if (!DEBUG_MODE) {
+      translate(0,height);
+      rotate(-PI/2);
+    }
+    
     try{
       //println("drawing leaves.");
       imageMode(CENTER);
@@ -164,10 +252,16 @@ class LeafSystem {
     {
 //      println(this.getClass() + ":draw: " + e);
     }
+    popMatrix();
   }
   
   
   void update(float dt) {
-    
+    for (int i=0; i < leaves.length; i++) {
+      leaves[i].update(dt);
+      if (leaves[i].offScreen) {
+        leaves[i] = spawnLeaf();
+      }
+    }
   }
 }

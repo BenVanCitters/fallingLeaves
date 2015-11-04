@@ -7,12 +7,12 @@ static HashMap<String, PImage> imageFileCache = new HashMap<String, PImage>();
 //***************************************************************
 PImage loadCachedPNGFile(String filename) {
   PImage imageFile;
-  println("loadCachedPNGFile: " + filename);
+  //println("loadCachedPNGFile: " + filename);
   if(imageFileCache.containsKey(filename)) {
-    println("loading from cache.");
+    //println("loading from cache.");
     imageFile = imageFileCache.get(filename);
   } else {
-    println("loading from disk.");
+    //println("loading from disk.");
     imageFile = loadImage(filename);
     imageFileCache.put(filename, imageFile);
   }

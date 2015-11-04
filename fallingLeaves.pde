@@ -2,7 +2,7 @@
 //***************************************************************
 //falling leaves app
 //***************************************************************
-static final boolean DEBUG_MODE = true;
+final boolean DEBUG_MODE = true;
 static boolean display_background = true;
 static PImage imgBackground = null;
 static GridTiler gridTiles;
@@ -23,7 +23,7 @@ void setup()
   { size(600,800,P2D); }
   else
   { size(800,600,P2D); }//we are dealing with a 800x600 native res projector
-  
+  noCursor();
   XML xml = loadXML("GridTiler.xml");
   if(DEBUG_MODE)
   { gridTiles = new GridTool(xml);}//new float[]{width/2,height/2},50, PI/3, 2*PI/3.f);
@@ -32,7 +32,7 @@ void setup()
  
   gridTiles.loadWithXML(xml);
   
-  leafs = new LeafSystem(20, "leafSystem.png", 50);
+  leafs = new LeafSystem(50, "leafSystem.png", 50);
   
   leafs.spawn();
   
@@ -46,13 +46,18 @@ void drawBackground()
   if(DEBUG_MODE)
   { 
     translate(0,width);
-    rotate(-PI/2);
-  }  
+  } else { 
+    translate(0,height);
+  }
+  rotate(-PI/2);
+  
   if (null == imgBackground) {
     imgBackground = loadImage("treeoverlay.png");
   }
-  image(imgBackground, 0, 0, width, height);
-  
+  pushStyle();
+  imageMode(CORNER);
+  image(imgBackground, 0, 0);
+  popStyle();  
   popMatrix();
 }
 
@@ -76,6 +81,7 @@ void draw()
 
   float secondsSinceLastUpdate = (millis()-lastEndTick)/1000.f;
   gridTiles.update(secondsSinceLastUpdate);
+  leafs.update(secondsSinceLastUpdate);
   gridTiles.draw();
   lastEndTick = millis();
   
