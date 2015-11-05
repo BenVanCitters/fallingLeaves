@@ -2,7 +2,7 @@
 //***************************************************************
 //falling leaves app
 //***************************************************************
-final boolean DEBUG_MODE = false;
+final boolean DEBUG_MODE = true;
 static boolean display_tree = true;
 static PImage imgTree = null;
 static PImage imgSilhouette = null; 
@@ -10,7 +10,7 @@ static GridTiler gridTiles;
 float lastEndTick = 0;
 
 static boolean edit_mode = false;
-static boolean display_leaf_system = true;
+static boolean display_leaf_system = false;
 static boolean display_leaves = true;
 static boolean crop_line = false;
 static boolean draw_crop_line = false;
@@ -31,7 +31,9 @@ void setup()
   { size(600,800,P2D); }
   else
   { size(800,600,P2D); }//we are dealing with a 800x600 native res projector
-  noCursor();
+  if (!DEBUG_MODE) {
+    noCursor();
+  }
   XML xml = loadXML("GridTiler.xml");
   if(DEBUG_MODE)
   { gridTiles = new GridTool(xml);}//new float[]{width/2,height/2},50, PI/3, 2*PI/3.f);
