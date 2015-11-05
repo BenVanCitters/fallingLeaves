@@ -11,6 +11,10 @@ float lastEndTick = 0;
 static boolean edit_mode = false;
 static boolean display_leaf_system = true;
 static boolean display_leaves = true;
+static boolean crop_line = false;
+static boolean draw_crop_line = false;
+
+static float cropX;
 
 static LeafSystem leafs;
 
@@ -97,6 +101,13 @@ void draw()
   if (display_leaves) {
     leafs.draw();
   }
+  
+  if (crop_line || draw_crop_line) {
+    pushStyle();
+    stroke(255,0,0);
+    line(cropX,0,cropX,height);
+    popStyle();
+  }
 }
 
 //***************************************************************
@@ -110,6 +121,13 @@ void mousePressed() {
   }
 }
 
+void mouseClicked() {
+  if (crop_line) {
+    draw_crop_line = true;
+    crop_line = false;
+  }
+}
+
 void mouseDragged() {
   int x = mouseX;
   int y = mouseY;
@@ -118,34 +136,52 @@ void mouseDragged() {
   }
 }
 
+void mouseMoved() {
+  if (crop_line) {
+    cropX = mouseX;
+  }
+}
+
 void saveScreenToPicture()
 {
   save("screenCap/fallingLeaves-"+year()+"-"+month()+"-"+day()+":"+hour()+":"+minute()+":"+second()+":"+millis() +".png");
 }
 
+
+boolean ifKeyPair(char k, char c1, char c2) {
+  return ((k == c1)||(k == c2));
+}
+
 void keyPressed()
 {
-  if ((key == 'p') || (key == 'P')) {
+  if (ifKeyPair(key,'p','P')) {
     saveScreenToPicture();
   }
-  if ((key == 'g') || (key == 'G')) {
+  if (ifKeyPair(key,'g','G')) {
     if(DEBUG_MODE)
       ((GridTool)gridTiles).generateCutouts();
   }
-  if ((key == 't') || (key == 'T')) {
+  if (ifKeyPair(key,'t','T')) {
     display_tree ^= true;
   }
-  if ((key == 'e') || (key == 'E')) {
+  if (ifKeyPair(key,'e','E')) {
     if (edit_mode) {
       leafs.finishSpawnMask();
       display_leaf_system = true;
     }
     edit_mode ^= true;
   }
-  if ((key == 'l') || (key == 'L')) {
+  if (ifKeyPair(key,'l','L')) {
     display_leaf_system ^= true;
   }
-  if ((key == 'f') || (key == 'F')) {
+  if (ifKeyPair(key,'f','F')) {
     display_leaves ^= true;
+  }
+  if (ifKeyPair(key,'x','X')) {
+    if (draw_crop_line) {
+      draw_crop_line = false;
+    } else {
+      crop_line ^= true;
+    }
   }
 }
