@@ -28,6 +28,9 @@ class LeafSystem {
     float rotationalVelocity;
     color c;
 
+    float leaf_bound;
+
+
     color randLeafColor() {
       float r,g;
       if (1 < random(4)) {
@@ -44,6 +47,12 @@ class LeafSystem {
       img = iimg;
       falling = false;
       offScreen = false;
+      
+      if (DEBUG_MODE) {
+        leaf_bound = height;
+      } else {
+        leaf_bound = width;
+      }
       
       rad = random(-PI, PI);  // this should be where the position gets set.
       rotateDir = rotationDirections[int(random(2))];
@@ -67,7 +76,7 @@ class LeafSystem {
       if (falling) {
         pt.y += dt*(800.0/fullScreenFallTime);
         rad += dt*rotateDir*rotationalVelocity;
-        if (height < pt.y) {
+        if (leaf_bound < pt.y) {
           offScreen = true;
         }
       } else {
