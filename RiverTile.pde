@@ -23,7 +23,7 @@ PImage imgFish;
 static boolean river_tiles_setup = false;
 
 static float number_of_lines = 0;
-static float number_river_line_particles = 3;
+static float number_river_line_particles = 14;
 //***************************************************************
 // This function sets up the constants used by the river
 //***************************************************************
@@ -99,16 +99,20 @@ class RiverLineParticle
     0, 0
   };
   int clr = color(255);
+  float lineW = 1;
+  float vel = 1;
   float len;
   void update(float dt)
   {
     t -= dt;
-    len = 10*sin(t);
+    len = 10*sin(vel*t);
   }
   void draw()
   {
     pushStyle();
     stroke(clr);
+    strokeWeight(lineW);
+    strokeCap(SQUARE);
     line(-len*dir[0], -len*dir[1], 
     +len*dir[0], +len*dir[1]);
     popStyle();
@@ -214,6 +218,9 @@ class RiverTile extends ProceduralAnimatedGridTile
       r.pos[0] = random(1);
       r.pos[1] = random(1);
       r.t = random(5);
+      r.clr = color(255,random(100));
+      r.lineW = 1+random(3);
+      r.vel = 2.5+random(1.5);
       r.dir = getDirectionForNormalizedPosition(r.pos, new float[][] {
         xAxis, yAxis
       }
