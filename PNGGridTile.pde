@@ -49,12 +49,11 @@ class PNGGridTile extends BaseGridTile
   //***************************************************************
   // 
   //***************************************************************
-  public PNGGridTile(int[] pos, int[] sz, String fileName )
+  public PNGGridTile(int[] pos, int[] sz, float[] offs, String fileName )
   {
     super(pos[0],pos[1],sz[0],sz[1]);
-
-      img = loadCachedPNGFile(fileName);
-//    super(xml);
+    offset = offs;
+    img = loadCachedPNGFile(fileName);
   }
   
   //***************************************************************
