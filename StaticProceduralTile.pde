@@ -3,8 +3,6 @@
 //***************************************************************
 class StaticProceduralTile extends BaseGridTile
 {
-  //the size in grid units 
-  int size[] = {1,1};
 
   
   //***************************************************************
@@ -13,6 +11,15 @@ class StaticProceduralTile extends BaseGridTile
   public StaticProceduralTile(int x, int y)
   {
     super(x,y);
+  }
+  
+    //***************************************************************
+  //origin construtor
+  //***************************************************************
+  public StaticProceduralTile(int x, int y, int w, int h)
+  {
+    super(x,y,w,h);
+    
   }
   
   //***************************************************************
@@ -32,7 +39,7 @@ class StaticProceduralTile extends BaseGridTile
     
     float[][] bases = gridTiles.getBasisVectors();
     pushStyle();
-      fill(255,0,0);
+      fill(random(255),0,0);
       noStroke();
       beginShape(TRIANGLE_STRIP);
       vertex(0,0);

@@ -80,20 +80,51 @@ class GridTiler implements XMLLoadable
       for(int j = dims[0]; j < dims[1]; j++)
       {
         boolean occupied = isTileOccupied(i,j,3,3);
-//        println("i: " + i + " j: " + j + " occu: " + occupied);
-//        for(BaseGridTile tile : xmlTiles) 
-//        {
-//          occupied = occupied || ((tile.position[0] == i) && (tile.position[1] == j));  
-//        }
         if(!occupied)
         {
-          
-  PNGGridTile spt = new PNGGridTile(new int[]{i,j}, new int[]{3,3}, new float[]{0,75},"data/terrain_wave1-3x3.png" );
-//            StaticProceduralTile spt = new StaticProceduralTile(i,j);
-            genTiles.add(spt);
-         }
+          addRandomTile(i,j,3,3);
+        }
+        
+        occupied = isTileOccupied(i,j,2,2);
+        if(!occupied)
+        {
+          addRandomTile(i,j,2,2);
+        }
+        
+        occupied = isTileOccupied(i,j,1,1);
+        if(!occupied)
+        {
+          addRandomTile(i,j,1,1);
+        }
       }
     }
+  }
+
+  void addRandomTile(int x, int y, int w, int h)
+  {
+    String[] names = {"terrain_block1-3x3.png","terrain_wave1-3x3.png","terrain_star1-3x3.png"};
+    BaseGridTile tile = null;
+    if(w==3 && h ==3)
+    {
+      if(random(1) > .5)
+      {
+        int rndIndex = (int)(random(3));
+        tile = new PNGGridTile(new int[]{x,y}, new int[]{3,3}, new float[]{0,75},names[rndIndex] );
+      }
+      else
+      {
+        tile = new StaticProceduralTile(x,y,3,3);
+      }
+    }
+    else if(w==2 && h ==2)
+    {
+      tile = new StaticProceduralTile(x,y,2,2);
+    }
+    else if(w==1 && h ==1)
+    {
+      tile = new StaticProceduralTile(x,y,1,1);
+    }
+    addTile(genTiles,tile);
   }
 
   boolean isTileOccupied(int x, int y, int w, int h)
@@ -105,7 +136,7 @@ class GridTiler implements XMLLoadable
       {
         for(int j = 0; j < h; j++)
         {
-          occupied = occupied || ((tile.position[0]+i == x) && (tile.position[1]+j == y));
+          occupied = occupied || ((tile.position[0] == x+i) && (tile.position[1] == y+j));
         }
       }  
     }
@@ -116,7 +147,7 @@ class GridTiler implements XMLLoadable
       {
         for(int j = 0; j < h; j++)
         {
-          occupied = occupied || ((tile.position[0]+i == x) && (tile.position[1]+j == y));
+          occupied = occupied || ((tile.position[0] == x+i) && (tile.position[1] == y+j));
         }
       }  
     }
