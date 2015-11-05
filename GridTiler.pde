@@ -202,7 +202,7 @@ class GridTiler implements XMLLoadable
       else if(className == "AnimatedGridTile")
       {  tile = new AnimatedGridTile(currentTileXML); }
       else if(className == "RiverTile")
-      {  tile = new RiverTile(currentTileXML); }
+      {  tile = new RiverTile(currentTileXML,xAxis,yAxis); }
       else if (className == "#text")
       { /*do nothing empty whitespace nodes.*/}
       else
