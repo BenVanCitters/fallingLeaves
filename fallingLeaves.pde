@@ -2,7 +2,7 @@
 //***************************************************************
 //falling leaves app
 //***************************************************************
-final boolean DEBUG_MODE = true;
+final boolean DEBUG_MODE = false;
 static boolean display_tree = true;
 static PImage imgTree = null;
 static PImage imgSilhouette = null; 
