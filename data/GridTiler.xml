@@ -50,6 +50,8 @@
         <RiverTile x="2" y="3" to="LR" from="UL" />
         <RiverTile x="2" y="4" to="LR" from="UL" />
         <RiverTile x="2" y="5" to="LR" from="UL" />
+        <RiverTile x="2" y="6" to="LR" from="UL" />
+        <RiverTile x="2" y="7" to="LR" from="UL" />
 
         <RiverTile x="1" y="-11" to="LR" from="UL" />
         <RiverTile x="1" y="-10" to="LR" from="UL" />
@@ -69,6 +71,9 @@
         <RiverTile x="3" y="2" to="LR" from="UL" />
         <RiverTile x="3" y="3" to="LR" from="UL" />
         <RiverTile x="3" y="4" to="LR" from="UL" />
+        <RiverTile x="3" y="5" to="LR" from="UL" />
+        <RiverTile x="3" y="6" to="LR" from="UL" />
+        <RiverTile x="3" y="7" to="LR" from="UL" />
 
         <RiverTile x="2" y="-10" to="LR" from="UL" />
         <RiverTile x="2" y="-9" to="LR" from="UL" />
@@ -86,6 +91,8 @@
         <RiverTile x="4" y="1" to="LR" from="UL" />
         <RiverTile x="4" y="2" to="LR" from="UL" />
         <RiverTile x="4" y="3" to="LR" from="UL" />
+        <RiverTile x="4" y="4" to="LR" from="UL" />
+        <RiverTile x="4" y="5" to="LR" from="UL" />
         
     </Tiles>
 </GridTiler>

@@ -5,6 +5,7 @@
 final boolean DEBUG_MODE = false;
 static boolean display_tree = true;
 static PImage imgTree = null;
+static PImage imgSilhouette = null; 
 static GridTiler gridTiles;
 float lastEndTick = 0;
 
@@ -37,9 +38,12 @@ void setup()
  
   gridTiles.loadWithXML(xml);
   
-  leafs = new LeafSystem(50, "leafSystem.png", 50);
+  leafs = new LeafSystem(50, "leafSystem.png", 75);
   
   leafs.spawn();
+  
+  imgTree = loadImage("treeoverlay.png");
+  imgSilhouette = loadImage("treesilhouette.png");
   
   println("classname: " + super.getClass().getSuperclass());
 //  fmr = new FluidMotionReceiver(this,"videoFluidSyphon");
@@ -56,15 +60,31 @@ void drawTree()
   }
   rotate(-PI/2);
   
-  if (null == imgTree) {
-    imgTree = loadImage("treeoverlay.png");
-  }
   pushStyle();
   imageMode(CORNER);
   image(imgTree, 0, 0);
   popStyle();  
   popMatrix();
 }
+
+void drawSilhouette()
+{
+  pushMatrix();
+  if(DEBUG_MODE)
+  { 
+    translate(0,width);
+  } else { 
+    translate(0,height);
+  }
+  rotate(-PI/2);
+  
+  pushStyle();
+  imageMode(CORNER);
+  image(imgSilhouette, 0, 0);
+  popStyle();  
+  popMatrix();
+}
+
 
 //***************************************************************
 // our looping function called once per tick
@@ -88,6 +108,8 @@ void draw()
   
   if (display_tree) {
     drawTree();
+  } else {
+    drawSilhouette(); 
   }
 
   if (DEBUG_MODE) {

@@ -1,4 +1,6 @@
 import java.util.Hashtable;
+boolean populate_tiles = false;
+
 //***************************************************************
 // grid responsible for managing, drawingm and updating all of the
 // animated an non animated tiles
@@ -39,7 +41,9 @@ class GridTiler implements XMLLoadable
   public GridTiler(XML xml)
   {
     loadWithXML(xml);
-    populateNearbyTiles();
+    if (populate_tiles) {
+      populateNearbyTiles();
+    }
   }
   //***************************************************************
   // graphscale: scale of unit vectors
