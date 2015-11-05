@@ -50,6 +50,8 @@
         <RiverTile x="2" y="3" to="LR" from="UL" />
         <RiverTile x="2" y="4" to="LR" from="UL" />
         <RiverTile x="2" y="5" to="LR" from="UL" />
+        <RiverTile x="2" y="6" to="LR" from="UL" />
+        <RiverTile x="2" y="7" to="LR" from="UL" />
 
         <RiverTile x="1" y="-11" to="LR" from="UL" />
         <RiverTile x="1" y="-10" to="LR" from="UL" />
@@ -69,6 +71,9 @@
         <RiverTile x="3" y="2" to="LR" from="UL" />
         <RiverTile x="3" y="3" to="LR" from="UL" />
         <RiverTile x="3" y="4" to="LR" from="UL" />
+        <RiverTile x="3" y="5" to="LR" from="UL" />
+        <RiverTile x="3" y="6" to="LR" from="UL" />
+        <RiverTile x="3" y="7" to="LR" from="UL" />
 
         <RiverTile x="2" y="-10" to="LR" from="UL" />
         <RiverTile x="2" y="-9" to="LR" from="UL" />
@@ -86,7 +91,8 @@
         <RiverTile x="4" y="1" to="LR" from="UL" />
         <RiverTile x="4" y="2" to="LR" from="UL" />
         <RiverTile x="4" y="3" to="LR" from="UL" />
+        <RiverTile x="4" y="4" to="LR" from="UL" />
+        <RiverTile x="4" y="5" to="LR" from="UL" />
         
-        <PNGGridTile x="-5" y="-3" w="3" h="3" offsetX="0" offsetY="75" file="terrain_star1-3x3.png"/>
     </Tiles>
 </GridTiler>
