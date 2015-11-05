@@ -19,6 +19,8 @@ static float cropX;
 
 static LeafSystem leafs;
 
+RadialTileChanger tileChanger;
+
 //FluidMotionReceiver fmr;
 //***************************************************************
 // called to set everything up
@@ -38,8 +40,8 @@ void setup()
  
   gridTiles.loadWithXML(xml);
   
+  tileChanger = new RadialTileChanger(gridTiles,new float[]{0,0});
   leafs = new LeafSystem(50, "leafSystem.png", 75);
-  
   leafs.spawn();
   
   imgTree = loadImage("treeoverlay.png");
@@ -92,17 +94,25 @@ void drawSilhouette()
 //***************************************************************
 void draw()
 {
+  pushStyle();
+  fill(0,0,0,90);
+  rect(0,0,width,height);
+  popStyle();
+  
   if(DEBUG_MODE)
   { 
     pushMatrix();
     translate(width,0);
     rotate(PI/2);
   }
-  background(50);
 
   float secondsSinceLastUpdate = (millis()-lastEndTick)/1000.f;
   gridTiles.update(secondsSinceLastUpdate);
   leafs.update(secondsSinceLastUpdate);
+//  if(!tileChanger.isComplete())
+    tileChanger.update(secondsSinceLastUpdate);
+//  else
+//    tileChanger.reset();
   gridTiles.draw();
   lastEndTick = millis();
   

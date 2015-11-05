@@ -1,5 +1,5 @@
 import java.util.Hashtable;
-boolean populate_tiles = false;
+boolean populate_tiles = true;
 
 //***************************************************************
 // grid responsible for managing, drawingm and updating all of the
@@ -7,23 +7,7 @@ boolean populate_tiles = false;
 //***************************************************************
 class GridTiler implements XMLLoadable
 {
-  private class pos
-  {
-    int x;int y;
-    public pos(int x1, int y1){this.x = x1; this.y = y1;}
-    @Override public boolean equals(Object o) {
-      println("calledequals");
-    return (o instanceof pos) && (this.x == ((pos) o).x) && (this.y == ((pos) o).y);
-    }
-    @Override public int hashCode()
-    {
-//      println("calledhash");
-      int code = super.hashCode();
-      code = (x>>16)|(y);
-      println("code: " +code);
-      return code;
-    }
-  }
+
   
   protected float[] xAxis = {20,5};
   protected float[] yAxis = {5,20};
@@ -95,6 +79,12 @@ class GridTiler implements XMLLoadable
           addRandomTile(i,j,2,2);
         }
         
+//        occupied = isTileOccupied(i,j,2,1);
+//        if(!occupied)
+//        {
+//          addRandomTile(i,j,2,1);
+//        }
+        
         occupied = isTileOccupied(i,j,1,1);
         if(!occupied)
         {
@@ -106,27 +96,55 @@ class GridTiler implements XMLLoadable
 
   void addRandomTile(int x, int y, int w, int h)
   {
-    String[] names = {"terrain_block1-3x3.png","terrain_wave1-3x3.png","terrain_star1-3x3.png"};
+    
     BaseGridTile tile = null;
     if(w==3 && h ==3)
     {
+    
       if(random(1) > .5)
       {
-        int rndIndex = (int)(random(3));
+        String[] names = {"terrain_block1-3x3.png","terrain_wave1-3x3.png","terrain_star1-3x3.png","leaves3x3-0x75.png","bldg3x3-0x75.png","leafs3x3-0x75.png","sand3x3-0x75.png"};
+        int rndIndex = (int)(random(names.length));
         tile = new PNGGridTile(new int[]{x,y}, new int[]{3,3}, new float[]{0,75},names[rndIndex] );
       }
       else
       {
+        
         tile = new StaticProceduralTile(x,y,3,3);
       }
     }
     else if(w==2 && h ==2)
     {
-      tile = new StaticProceduralTile(x,y,2,2);
+        if(random(1) > .5)
+        {
+          tile = new StaticProceduralTile(x,y,2,2);
+        }
+        else
+        {
+          String[] names = {"metal2x2-0x50 copy.png","grass2x2-0x50.png","hair2x2-0x50.png"};
+          int rndIndex = (int)(random(names.length));
+          tile = new PNGGridTile(new int[]{x,y}, new int[]{2,2}, new float[]{0,50},names[rndIndex] );
+        }
+      
+    }
+    else if(w==2 && h == 1)
+    {
+          String[] names = {"text2x1-0x25.png"};
+          int rndIndex = (int)(random(names.length));
+          tile = new PNGGridTile(new int[]{x,y}, new int[]{2,1}, new float[]{0,75},names[rndIndex] );
     }
     else if(w==1 && h ==1)
     {
-      tile = new StaticProceduralTile(x,y,1,1);
+        if(random(1) > .5)
+        {
+          tile = new StaticProceduralTile(x,y,1,1);
+        }
+        else
+        {
+          String[] names = {"pants1x1-0x25.png","corn1x1-0x25.png"};
+          int rndIndex = (int)(random(names.length));
+          tile = new PNGGridTile(new int[]{x,y}, new int[]{1,1}, new float[]{0,25},names[rndIndex] );
+        }
     }
     addTile(genTiles,tile);
   }
@@ -158,6 +176,10 @@ class GridTiler implements XMLLoadable
     return occupied;
   }
 
+  ArrayList<BaseGridTile> getGenTiles()
+  {
+    return new ArrayList<BaseGridTile>(genTiles);
+  }
 
   //***************************************************************
   // updates all tiles and the grid itself
@@ -286,6 +308,11 @@ class GridTiler implements XMLLoadable
   
   void addTile(ArrayList<BaseGridTile> list, BaseGridTile tile)
   {
+    for(BaseGridTile t : genTiles) 
+    {
+      if(t.position[0] == tile.position[0] && t.position[1] == tile.position[1])
+        return;
+    }   
     list.add(tile);
     for(BaseGridTile t : tile.subTiles)
     {
@@ -293,12 +320,30 @@ class GridTiler implements XMLLoadable
     }
   }
   
+  void removeTileAt( int x, int y)
+  {
+    for(BaseGridTile tile : genTiles) 
+    {
+      if(tile.position[0] == x && tile.position[1] == y )
+      {
+        removeTile(genTiles, tile);
+        return;
+      }
+    }
+  }
+  
+  //removes a tile from the grid and its children and its parent
   void removeTile(ArrayList<BaseGridTile> list, BaseGridTile tile)
   {
-    list.remove(tile);
-    for(BaseGridTile t : tile.subTiles)
+    if(list.remove(tile))
     {
-      list.remove(t);
+      removeTile(list,tile.parentTile);
+      tile.parentTile = null;
+      for(BaseGridTile t : tile.subTiles)
+      {
+        removeTile(list,t);
+      }
+      tile.subTiles.clear();
     }
   }
 }

@@ -28,6 +28,7 @@ class PNGGridTile extends BaseGridTile
   //offset to line png up with grid
   float offset[];
   PImage img;
+
   //***************************************************************
   //origin construtor
   //***************************************************************
@@ -54,6 +55,7 @@ class PNGGridTile extends BaseGridTile
     super(pos[0],pos[1],sz[0],sz[1]);
     offset = offs;
     img = loadCachedPNGFile(fileName);
+
   }
   
   //***************************************************************
@@ -62,8 +64,12 @@ class PNGGridTile extends BaseGridTile
   public void draw()
   {
     //fill me in
+    pushStyle();
+    tint(tintColor);
     image(img, -offset[0], -offset[1]);
+    popStyle();
   }
+  
   
  
   // <PNGGridTile

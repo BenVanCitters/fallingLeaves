@@ -22,7 +22,6 @@ PImage imgFish;
 
 static boolean river_tiles_setup = false;
 
-static float number_of_lines = 0;
 static float number_river_line_particles = 14;
 //***************************************************************
 // This function sets up the constants used by the river
@@ -240,7 +239,7 @@ class RiverTile extends ProceduralAnimatedGridTile
     float[][] bases = gridTiles.getBasisVectors();
     pushStyle();
     noStroke();
-    fill(100, 100, 255);
+    fill(100, 100, 200+55*sin(-millis()/5000.f -position[0]/4+position[1]));
     beginShape(TRIANGLE_STRIP);
     vertex(0, 0);
     vertex(bases[0][0], 
@@ -251,31 +250,6 @@ class RiverTile extends ProceduralAnimatedGridTile
     vertex(bases[0][0] + bases[1][0], 
     bases[0][1] + bases[1][1]); 
     endShape();
-
-    stroke(200, 200, 255);
-    fill(255, 0, 0);
-
-    //    println("bases: <" + bases[0][0] + "," + bases[0][1] + "> <" + bases[1][0] + "," + bases[1][1] + ">");
-    for (int i = 0; i < number_of_lines; i++)
-    {      
-      float[] pos = {
-        random(1), random(1)
-      };
-      float[] dir = getDirectionForNormalizedPosition(pos, bases);
-      //        println("dir: <" + dir[0] + "," + dir[1] + ">");
-      float[] grdSpc = {
-        pos[0]*bases[0][0] + pos[1]*bases[1][0], 
-        pos[0]*bases[0][1] + pos[1]*bases[1][1]
-      };
-
-      float factor = .2; 
-      dir[0] *= factor; 
-      dir[1] *= factor;
-      line(grdSpc[0]-dir[0], 
-      grdSpc[1]-dir[1], 
-      grdSpc[0]+dir[0], 
-      grdSpc[1]+dir[1]);
-    }
 
     popStyle();
     for (RiverLineParticle r : riverLineParticles)

@@ -7,6 +7,10 @@ class BaseGridTile implements XMLLoadable
   int[] position = {0,0};
   int[] size = {1,1};
   
+  int tintColor = color(255);
+    float colorShiftOffset[]= new float[]{random(TWO_PI),random(TWO_PI)};;
+  float colorShiftSpd[] =new float[]{ random(.1), random(.1)};
+    
   private ArrayList<BaseGridTile> subTiles = new ArrayList<BaseGridTile>();
   private BaseGridTile parentTile;
   
@@ -46,7 +50,11 @@ class BaseGridTile implements XMLLoadable
       for(int j =0; j< size[1]; j++)
       {
         if( !(i == 0 && j== 0)) //don't add ourself
-          subTiles.add(new BaseGridTile(position[0]+i,position[1]+j));
+        {
+          BaseGridTile bgt = new BaseGridTile(position[0]+i,position[1]+j);
+          bgt.parentTile = this;
+          subTiles.add(bgt);
+        }
       }
     }
     println("added " + subTiles.size() + " subtiles");
@@ -72,7 +80,9 @@ class BaseGridTile implements XMLLoadable
   //***************************************************************
   public void update(float dt)
   {
-    
+    tintColor = color(80*(1+sin(position[0] + colorShiftOffset[0]+ colorShiftSpd[0]*millis()/1000.f))/2,
+                      165*(1+sin(position[0] + colorShiftOffset[1]+ colorShiftSpd[1]*millis()/1000.f))/2,
+                      0);
   }
 
   
