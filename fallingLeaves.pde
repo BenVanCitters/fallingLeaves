@@ -2,14 +2,15 @@
 //***************************************************************
 //falling leaves app
 //***************************************************************
-final boolean DEBUG_MODE = true;
-static boolean display_background = true;
-static PImage imgBackground = null;
+final boolean DEBUG_MODE = false;
+static boolean display_tree = true;
+static PImage imgTree = null;
 static GridTiler gridTiles;
 float lastEndTick = 0;
 
 static boolean edit_mode = false;
 static boolean display_leaf_system = true;
+static boolean display_leaves = true;
 
 static LeafSystem leafs;
 
@@ -40,7 +41,7 @@ void setup()
 //  fmr = new FluidMotionReceiver(this,"videoFluidSyphon");
 }
 
-void drawBackground()
+void drawTree()
 {
   pushMatrix();
   if(DEBUG_MODE)
@@ -51,12 +52,12 @@ void drawBackground()
   }
   rotate(-PI/2);
   
-  if (null == imgBackground) {
-    imgBackground = loadImage("treeoverlay.png");
+  if (null == imgTree) {
+    imgTree = loadImage("treeoverlay.png");
   }
   pushStyle();
   imageMode(CORNER);
-  image(imgBackground, 0, 0);
+  image(imgTree, 0, 0);
   popStyle();  
   popMatrix();
 }
@@ -75,26 +76,27 @@ void draw()
   }
   background(50);
 
-  if (display_background) {
-    drawBackground();
-  }
-
   float secondsSinceLastUpdate = (millis()-lastEndTick)/1000.f;
   gridTiles.update(secondsSinceLastUpdate);
   leafs.update(secondsSinceLastUpdate);
   gridTiles.draw();
   lastEndTick = millis();
   
+  if (display_tree) {
+    drawTree();
+  }
+
   if (DEBUG_MODE) {
     popMatrix();
   }
-  
-  leafs.draw();
-  
+    
   if (edit_mode || display_leaf_system) {
      leafs.displaySpawnData();
   }
-//  fmr.update();
+
+  if (display_leaves) {
+    leafs.draw();
+  }
 }
 
 //***************************************************************
@@ -130,8 +132,8 @@ void keyPressed()
     if(DEBUG_MODE)
       ((GridTool)gridTiles).generateCutouts();
   }
-  if ((key == 'b') || (key == 'B')) {
-    display_background ^= true;
+  if ((key == 't') || (key == 'T')) {
+    display_tree ^= true;
   }
   if ((key == 'e') || (key == 'E')) {
     if (edit_mode) {
@@ -142,5 +144,8 @@ void keyPressed()
   }
   if ((key == 'l') || (key == 'L')) {
     display_leaf_system ^= true;
+  }
+  if ((key == 'f') || (key == 'F')) {
+    display_leaves ^= true;
   }
 }
