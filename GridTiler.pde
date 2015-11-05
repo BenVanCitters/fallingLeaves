@@ -39,7 +39,7 @@ class GridTiler implements XMLLoadable
   public GridTiler(XML xml)
   {
     loadWithXML(xml);
-//    populateNearbyTiles();
+    populateNearbyTiles();
   }
   //***************************************************************
   // graphscale: scale of unit vectors
@@ -79,18 +79,48 @@ class GridTiler implements XMLLoadable
     {
       for(int j = dims[0]; j < dims[1]; j++)
       {
-        boolean occupied = false;
-        for(BaseGridTile tile : xmlTiles) 
-        {
-          occupied = occupied || ((tile.position[0] == i) && (tile.position[1] == j));  
-        }
+        boolean occupied = isTileOccupied(i,j,3,3);
+//        println("i: " + i + " j: " + j + " occu: " + occupied);
+//        for(BaseGridTile tile : xmlTiles) 
+//        {
+//          occupied = occupied || ((tile.position[0] == i) && (tile.position[1] == j));  
+//        }
         if(!occupied)
         {
-            StaticProceduralTile spt = new StaticProceduralTile(i,j);
+          
+  PNGGridTile spt = new PNGGridTile(new int[]{i,j}, new int[]{3,3}, new float[]{0,75},"data/terrain_wave1-3x3.png" );
+//            StaticProceduralTile spt = new StaticProceduralTile(i,j);
             genTiles.add(spt);
          }
       }
     }
+  }
+
+  boolean isTileOccupied(int x, int y, int w, int h)
+  {
+    boolean occupied = false;
+    for(BaseGridTile tile : xmlTiles) 
+    {
+      for(int i = 0; i < w; i++)
+      {
+        for(int j = 0; j < h; j++)
+        {
+          occupied = occupied || ((tile.position[0]+i == x) && (tile.position[1]+j == y));
+        }
+      }  
+    }
+    
+    for(BaseGridTile tile : genTiles) 
+    {
+      for(int i = 0; i < w; i++)
+      {
+        for(int j = 0; j < h; j++)
+        {
+          occupied = occupied || ((tile.position[0]+i == x) && (tile.position[1]+j == y));
+        }
+      }  
+    }
+    return occupied;
   }
 
 
