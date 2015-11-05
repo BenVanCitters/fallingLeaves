@@ -37,7 +37,7 @@ void setup()
  
   gridTiles.loadWithXML(xml);
   
-  leafs = new LeafSystem(50, "leafSystem.png", 50);
+  leafs = new LeafSystem(50, "leafSystem.png", 75);
   
   leafs.spawn();
   

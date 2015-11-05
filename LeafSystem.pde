@@ -153,6 +153,10 @@ class LeafSystem {
         }
       }
     }
+    if (0 == leafSpawnPts.size()) {
+      leafSpawnPts.add(new Point(width, height));
+    }
+    println(this.getClass() + ": Number of ingested leaf spawn points " + leafSpawnPts.size());
   }
   
   // load leaf file from disk and ingest it.
@@ -232,6 +236,7 @@ class LeafSystem {
   }
   
   void spawn() {
+    
     if(leafSpawnPts == null || leafSpawnPts.size() <1)
     {
       println(this.getClass() + " we got a damn problem.");
