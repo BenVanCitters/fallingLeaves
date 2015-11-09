@@ -57,7 +57,7 @@ class BaseGridTile implements XMLLoadable
         }
       }
     }
-    println("added " + subTiles.size() + " subtiles");
+    //println("added " + subTiles.size() + " subtiles");
   }
   
   @Override public boolean equals(Object o) 

@@ -3,6 +3,8 @@ static final float tumblesPerFullScreenFall = 5;
 static final float maxRotationalVelocity = 5*TWO_PI/fullScreenFallTime;
 static final float[] rotationDirections = {-1,1};
 
+static final float leaf_img_sz = 50.0;
+
 class LeafSystem {
 
   class Point {    
@@ -12,6 +14,11 @@ class LeafSystem {
     Point(float ix, float iy) {
       x = ix;
       y = iy;
+    }
+    
+    Point(Point o) {
+      x = o.x;
+      y = o.y;
     }
   }
   
@@ -65,7 +72,7 @@ class LeafSystem {
           translate(pt.x, pt.y);
           tint(c);
           rotate(rad);
-          image(img, 0, 0, 50, 50);
+          image(img, 0, 0, leaf_img_sz, leaf_img_sz);
         popStyle();
       popMatrix();
       
@@ -76,7 +83,7 @@ class LeafSystem {
       if (falling) {
         pt.y += dt*(800.0/fullScreenFallTime);
         rad += dt*rotateDir*rotationalVelocity;
-        if (leaf_bound < pt.y) {
+        if ((leaf_bound + leaf_img_sz/2) < pt.y) {
           offScreen = true;
         }
       } else {
@@ -193,7 +200,7 @@ class LeafSystem {
     leafImages[3] = loadCachedPNGFile("leaf4.png");
   }
 
-// draws an ellipse at x,y with radius 'radius'
+  // draws an ellipse at x,y with radius 'radius'
   void addSpawnPoint(int x, int y) {
     pg.beginDraw();
     pg.ellipse(x, y, radius, radius);
@@ -226,8 +233,13 @@ class LeafSystem {
     popMatrix();
   }
   
+  Point getRandomSpawnPoint() {
+    Point p = new Point(leafSpawnPts.get(int(random(leafSpawnPts.size()))));
+    return p;
+  }
+  
   Leaf spawnLeaf() {
-    Point p = leafSpawnPts.get(int(random(leafSpawnPts.size())));
+    Point p = getRandomSpawnPoint();
     PImage leafImg = leafImages[int(random(leafImages.length))];
     Leaf newLeaf = new Leaf(p, leafImg);
     
