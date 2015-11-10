@@ -74,7 +74,7 @@ class RadialTileChanger extends TileChanger
   
   void reset()
   {
-    println("sakjhdkasjhdkajshdkjashd");
+    //println("sakjhdkasjhdkajshdkjashd");
     super.reset();
     tickDown = random(15)+15;
     expansionRate = 4+random(8);
